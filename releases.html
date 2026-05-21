@@ -130,7 +130,7 @@
     }
     .lp-sidebar-links a:hover { color: var(--text); background: var(--surface); border-left-color: var(--border); }
     .lp-sidebar-links a.lava-link { color: var(--gold); border-left-color: rgba(245,192,32,.4); }
-    .lp-sidebar-links a.lava-link:hover { border-left-color: var(--gold); background: rgba(245,192,32,.05); }
+    .lp-sidebar-links a.lava-link:hover { border-left-color: var(--gold); background: rgba(245,192,80,.05); }
     .lp-sidebar-links i { font-size: 1rem; }
 
     /* TOOL SECTIONS */
@@ -309,53 +309,22 @@
 
     /* HAMBURGER MENU */
     .lp-hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      width: 36px;
-      height: 36px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px;
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 36px; height: 36px; cursor: pointer;
+      background: none; border: none; padding: 4px;
     }
-    .lp-hamburger span {
-      display: block;
-      width: 100%;
-      height: 2px;
-      background: var(--text);
-      transition: transform .25s, opacity .25s;
-      transform-origin: center;
-    }
+    .lp-hamburger span { display: block; width: 100%; height: 2px; background: var(--text); transition: transform .25s, opacity .25s; transform-origin: center; }
     .lp-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .lp-hamburger.open span:nth-child(2) { opacity: 0; }
     .lp-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
     .lp-mobile-menu {
-      display: none;
-      position: fixed;
-      top: 57px;
-      left: 0; right: 0;
-      background: rgba(14,14,14,.98);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      z-index: 999;
-      padding: 1rem 2rem 1.5rem;
-      flex-direction: column;
-      gap: .25rem;
+      display: none; position: fixed; top: 57px; left: 0; right: 0;
+      background: rgba(14,14,14,.98); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border); z-index: 999;
+      padding: 1rem 2rem 1.5rem; flex-direction: column; gap: .25rem;
     }
     .lp-mobile-menu.open { display: flex; }
-    .lp-mobile-menu a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 1rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-weight: 500;
-      padding: .75rem 0;
-      border-bottom: 1px solid var(--border);
-      transition: color .2s;
-    }
+    .lp-mobile-menu a { color: var(--muted); text-decoration: none; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; padding: .75rem 0; border-bottom: 1px solid var(--border); transition: color .2s; }
     .lp-mobile-menu a:last-child { border-bottom: none; }
     .lp-mobile-menu a:hover { color: var(--gold); }
 
@@ -369,6 +338,82 @@
       .lp-nav-links { display: none; }
       .lp-hamburger { display: flex; }
       .lp-nav-cta { display: none; }
+    }
+
+    /* PRINT STYLESHEET */
+    @media print {
+      /* Hide all navigation, interactive, and decorative elements */
+      .lp-nav, .lp-mobile-menu, .lp-hamburger,
+      .lp-page-header::before, .lp-tool-nav,
+      .lp-sidebar, .lp-status-bar,
+      .lp-share-group, .lp-copy-btn,
+      .lp-star-badge, .lp-dl-count-badge,
+      .lp-release-dl-count, .lp-older-toggle,
+      .lp-view-all, .lp-footer,
+      .lp-asset-btn.primary .lp-copy-btn,
+      .lp-gh-link { display: none !important; }
+
+      /* White background, black text */
+      *, *::before, *::after { background: white !important; color: black !important; border-color: #ccc !important; box-shadow: none !important; }
+
+      body { font-family: Georgia, serif; font-size: 11pt; line-height: 1.5; }
+
+      /* Page header */
+      .lp-page-header { padding: 1rem 0; border-bottom: 2pt solid black; margin-bottom: 1rem; }
+      .lp-eyebrow { font-size: 8pt; letter-spacing: .15em; }
+      .lp-page-header h1 { font-size: 24pt; }
+      .lp-page-header p { font-size: 10pt; color: #444 !important; }
+
+      /* Layout — full width, no sidebar */
+      .lp-main { display: block; padding: 0; }
+
+      /* Tool sections */
+      .lp-tool-section { page-break-inside: avoid; margin-bottom: 1.5rem; border-bottom: 1pt solid #ccc; padding-bottom: 1rem; }
+      .lp-tool-header { padding-bottom: .5rem; border-bottom: 1pt solid #999; }
+      .lp-tool-header h2 { font-size: 18pt; }
+      .lp-tool-platform { font-size: 8pt; }
+      .lp-tool-fullname { font-size: 9pt; color: #555 !important; }
+
+      /* Release cards */
+      .lp-release-card { border: 1pt solid #ccc; padding: .75rem; margin-bottom: .5rem; page-break-inside: avoid; }
+      .lp-release-card.latest { border: 1.5pt solid #999; }
+      .lp-release-version { font-size: 13pt; font-weight: bold; }
+      .lp-release-date { font-size: 9pt; }
+      .lp-latest-badge { border: 1pt solid #999; font-size: 7pt; padding: .1rem .4rem; }
+      .lp-release-body { font-size: 9pt; color: #333 !important; }
+
+      /* Show all older releases when printing */
+      .lp-older-releases { display: flex !important; flex-direction: column; gap: .5rem; }
+
+      /* Asset buttons — show as text with URL */
+      .lp-release-assets { display: block; }
+      .lp-asset-btn {
+        display: block !important;
+        padding: .2rem 0;
+        font-size: 8pt;
+        border: none !important;
+        text-decoration: none;
+      }
+      .lp-asset-btn::after {
+        content: " — " attr(href);
+        font-size: 7pt;
+        color: #555 !important;
+        word-break: break-all;
+      }
+
+      /* About box */
+      .lp-about-box { display: block; border: 1pt solid #ccc; padding: .75rem; margin-bottom: .75rem; }
+      .lp-about-box h3 { font-size: 9pt; color: #333 !important; }
+      .lp-about-box p, .lp-about-box ul a { font-size: 9pt; color: #555 !important; }
+
+      /* Print header */
+      .lp-page-header-inner::before {
+        content: "LEAPPs Tool Releases — leapps.org/releases — Printed: " attr(data-print-date);
+        display: block; font-size: 8pt; color: #666 !important; margin-bottom: .5rem;
+      }
+
+      /* Page margins */
+      @page { margin: 1.5cm; }
     }
   </style>
 </head>
@@ -793,7 +838,6 @@
           icon.className = 'ti ti-clipboard';
         }, 2000);
       }).catch(function() {
-        // Fallback for older browsers
         const ta = document.createElement('textarea');
         ta.value = url;
         ta.style.position = 'fixed';
@@ -817,6 +861,35 @@
 
     tools.forEach(fetchStars);
     tools.forEach(fetchTotalDownloads);
+
+    // Back to top button
+    (function() {
+      var btn = document.createElement('button');
+      btn.setAttribute('aria-label', 'Back to top');
+      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+      btn.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;width:48px;height:48px;background:#F5C020;color:#0E0E0E;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s,background .2s;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.4);';
+      document.body.appendChild(btn);
+      function getScrollTop() { return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0; }
+      function onScroll() {
+        if (getScrollTop() > 200) { btn.style.opacity='1'; btn.style.pointerEvents='auto'; }
+        else { btn.style.opacity='0'; btn.style.pointerEvents='none'; }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      document.addEventListener('scroll', onScroll, { passive: true });
+      btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+        document.body.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      btn.addEventListener('mouseover', function() { btn.style.background='#D4A010'; });
+      btn.addEventListener('mouseout', function() { btn.style.background='#F5C020'; });
+    })();
+
+    // Set print date on page header
+    window.addEventListener('beforeprint', function() {
+      const inner = document.querySelector('.lp-page-header-inner');
+      if (inner) inner.setAttribute('data-print-date', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+    });
   </script>
 
 </body>
