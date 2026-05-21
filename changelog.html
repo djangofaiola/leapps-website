@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changelog — LEAPPs</title>
+  <meta name="description" content="Unified release history across all LEAPPs tools — iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://leapps.org/changelog" />
+  <meta property="og:title" content="Changelog — LEAPPs" />
+  <meta property="og:description" content="Unified release history across all LEAPPs tools — iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA." />
+  <meta property="og:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+  <meta property="og:site_name" content="LEAPPs" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Changelog — LEAPPs" />
+  <meta name="twitter:description" content="Unified release history across all LEAPPs tools." />
+  <meta name="twitter:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #F5C020; --gold-dk: #D4A010; --off-black: #0E0E0E;
+      --surface: #161616; --border: #2C2C2C; --text: #F0EDE6; --muted: #888888;
+      --font-head: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --color-ileapp: #F5C020;
+      --color-aleapp: #64b4ff;
+      --color-rleapp: #96dc96;
+      --color-vleapp: #ffa064;
+      --color-lava: #F5C020;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--off-black); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+
+    /* NAV */
+    .lp-nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(14,14,14,0.96); backdrop-filter: blur(8px); z-index: 1000; }
+    .lp-nav-logo { font-family: var(--font-head); font-size: 1.4rem; font-weight: 900; letter-spacing: .05em; color: var(--text); text-decoration: none; }
+    .lp-nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .lp-nav-links a { color: var(--muted); text-decoration: none !important; font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; transition: color .2s; }
+    .lp-nav-links a:hover { color: var(--gold); }
+    .lp-nav-links a.active { color: var(--gold); }
+    .lp-nav-cta { background: var(--gold); color: var(--off-black) !important; padding: .5rem 1.25rem; font-family: var(--font-head); font-weight: 700; font-size: .9rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none !important; transition: background .2s; }
+    .lp-nav-cta:hover { background: var(--gold-dk) !important; }
+    .lp-nav-dropdown { position: relative; }
+    .lp-nav-dropdown-trigger { color: var(--muted); font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: .3rem; user-select: none; transition: color .2s; }
+    .lp-nav-dropdown-trigger i.lp-chev { font-size: .75rem; transition: transform .2s; }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-trigger { color: var(--gold); }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-trigger i.lp-chev { transform: rotate(180deg); }
+    .lp-nav-dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: rgba(14,14,14,.98); backdrop-filter: blur(8px); border: 1px solid var(--border); min-width: 180px; z-index: 1001; flex-direction: column; padding-top: 12px; }
+    .lp-nav-dropdown-menu::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px; background: transparent; }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-menu { display: flex; }
+    .lp-nav-dropdown-menu a { color: var(--muted) !important; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; padding: .65rem 1rem; text-decoration: none !important; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .5rem; transition: color .2s, background .2s; }
+    .lp-nav-dropdown-menu a:last-child { border-bottom: none; }
+    .lp-nav-dropdown-menu a:hover { color: var(--gold) !important; background: var(--surface); }
+    .lp-nav-dropdown-menu i { font-size: .9rem; color: var(--gold); }
+
+    /* HAMBURGER */
+    .lp-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .lp-hamburger span { display: block; width: 100%; height: 2px; background: var(--text); transition: transform .25s, opacity .25s; transform-origin: center; }
+    .lp-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .lp-hamburger.open span:nth-child(2) { opacity: 0; }
+    .lp-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .lp-mobile-menu { display: none; position: fixed; top: 57px; left: 0; right: 0; background: rgba(14,14,14,.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); z-index: 999; padding: 1rem 2rem 1.5rem; flex-direction: column; gap: .25rem; }
+    .lp-mobile-menu.open { display: flex; }
+    .lp-mobile-menu a { color: var(--muted); text-decoration: none; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; padding: .75rem 0; border-bottom: 1px solid var(--border); transition: color .2s; }
+    .lp-mobile-menu a:last-child { border-bottom: none; }
+    .lp-mobile-menu a:hover { color: var(--gold); }
+
+    /* PAGE HEADER */
+    .lp-header { padding: 3.5rem 2rem 3rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .lp-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(245,192,32,.06) 0%, transparent 70%); pointer-events: none; }
+    .lp-header-inner { max-width: 1100px; margin: 0 auto; }
+    .lp-eyebrow { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
+    .lp-header h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; text-transform: uppercase; line-height: .95; margin-bottom: 1rem; }
+    .lp-header h1 span { color: var(--gold); }
+    .lp-header p { color: var(--muted); font-size: 1rem; max-width: 520px; line-height: 1.7; }
+
+    /* MAIN */
+    .lp-main { max-width: 800px; margin: 0 auto; padding: 3rem 2rem; }
+
+    /* FILTER BAR */
+    .lp-filter-bar { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .lp-filter-btn { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; padding: .35rem .85rem; border: 1px solid var(--border); color: var(--muted); background: none; cursor: pointer; transition: border-color .2s, color .2s, background .2s; }
+    .lp-filter-btn:hover { border-color: #444; color: var(--text); }
+    .lp-filter-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(245,192,32,.08); }
+    .lp-filter-btn[data-tool="ileapp"].active { border-color: var(--color-ileapp); color: var(--color-ileapp); background: rgba(245,192,32,.08); }
+    .lp-filter-btn[data-tool="aleapp"].active { border-color: var(--color-aleapp); color: var(--color-aleapp); background: rgba(100,180,255,.08); }
+    .lp-filter-btn[data-tool="rleapp"].active { border-color: var(--color-rleapp); color: var(--color-rleapp); background: rgba(150,220,150,.08); }
+    .lp-filter-btn[data-tool="vleapp"].active { border-color: var(--color-vleapp); color: var(--color-vleapp); background: rgba(255,160,100,.08); }
+    .lp-filter-btn[data-tool="lava"].active { border-color: var(--color-lava); color: var(--color-lava); background: rgba(245,192,32,.08); }
+
+    /* LOADING */
+    .lp-cl-loading { padding: 2rem; text-align: center; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); border: 1px solid var(--border); background: var(--surface); }
+    .lp-cl-loading span { color: var(--gold); }
+
+    /* TIMELINE */
+    .lp-timeline { position: relative; padding-left: 1.5rem; }
+    .lp-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border); }
+
+    /* YEAR MARKER */
+    .lp-year-marker { position: relative; margin-bottom: 1.5rem; margin-top: 1rem; }
+    .lp-year-marker::before { content: ''; position: absolute; left: -1.6rem; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background: var(--border); border: 1px solid #444; }
+    .lp-year-label { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: #555; }
+
+    /* ENTRY */
+    .lp-cl-entry { position: relative; margin-bottom: 1.25rem; padding-left: 1rem; }
+    .lp-cl-entry::before { content: ''; position: absolute; left: -1.57rem; top: .45rem; width: 8px; height: 8px; border-radius: 50%; background: #2C2C2C; border: 1px solid #444; transition: background .2s; }
+    .lp-cl-entry.latest::before { background: var(--gold); border-color: var(--gold); }
+    .lp-cl-entry.hidden { display: none; }
+
+    .lp-cl-meta { display: flex; align-items: center; gap: .6rem; margin-bottom: .35rem; flex-wrap: wrap; }
+    .lp-cl-date { font-family: var(--font-mono); font-size: .65rem; color: #555; letter-spacing: .06em; }
+    .lp-cl-tool { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .15rem .5rem; border: 1px solid var(--border); color: var(--muted); }
+    .lp-cl-tool.ileapp { border-color: rgba(245,192,32,.3); color: var(--color-ileapp); }
+    .lp-cl-tool.aleapp { border-color: rgba(100,180,255,.3); color: var(--color-aleapp); }
+    .lp-cl-tool.rleapp { border-color: rgba(150,220,150,.3); color: var(--color-rleapp); }
+    .lp-cl-tool.vleapp { border-color: rgba(255,160,100,.3); color: var(--color-vleapp); }
+    .lp-cl-tool.lava { border-color: rgba(245,192,32,.3); color: var(--color-lava); }
+    .lp-cl-latest { font-family: var(--font-mono); font-size: .55rem; padding: .1rem .4rem; background: rgba(245,192,32,.15); border: 1px solid rgba(245,192,32,.3); color: var(--gold); letter-spacing: .1em; text-transform: uppercase; }
+
+    .lp-cl-version { font-family: var(--font-head); font-size: 1.1rem; font-weight: 900; text-transform: uppercase; color: var(--text); margin-bottom: .3rem; }
+    .lp-cl-body { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+    .lp-cl-link { font-family: var(--font-mono); font-size: .65rem; color: var(--muted); text-decoration: none !important; display: inline-flex; align-items: center; gap: .3rem; margin-top: .5rem; transition: color .2s; }
+    .lp-cl-link:hover { color: var(--gold); }
+
+    /* STATS BAR */
+    .lp-cl-stats { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .lp-cl-stat-num { font-family: var(--font-head); font-size: 1.5rem; font-weight: 900; color: var(--gold); }
+    .lp-cl-stat-lbl { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .1rem; }
+
+    /* FOOTER */
+    .lp-footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
+    .lp-footer-logo { font-family: var(--font-head); font-size: 1.2rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+    .lp-footer p { font-size: .8rem; color: #555; }
+    .lp-footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+    .lp-footer-links a { color: #555 !important; text-decoration: none !important; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    .lp-footer-links a:hover { color: var(--gold) !important; }
+
+    @media (max-width: 768px) {
+      .lp-nav-links { display: none; }
+      .lp-hamburger { display: flex; }
+      .lp-nav-cta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="lp-nav">
+    <a href="https://leapps.org" class="lp-nav-logo">LEAPPs</a>
+    <ul class="lp-nav-links">
+      <li><a href="https://leapps.org#tools">Tools</a></li>
+      <li><a href="https://leapps.org#lava">LAVA</a></li>
+      <li><a href="https://leapps.org/releases">Releases</a></li>
+      <li><a href="https://leapps.org/stats">Stats</a></li>
+      <li><a href="https://leapps.org/changelog" class="active">Changelog</a></li>
+      <li class="lp-nav-dropdown">
+        <div class="lp-nav-dropdown-trigger">Community <i class="ti ti-chevron-down lp-chev" aria-hidden="true"></i></div>
+        <div class="lp-nav-dropdown-menu">
+          <a href="https://leapps.org#faq"><i class="ti ti-help-circle" aria-hidden="true"></i>FAQ</a>
+          <a href="https://leapps.org#mentions"><i class="ti ti-award" aria-hidden="true"></i>Featured</a>
+          <a href="https://leapps.org#contributors"><i class="ti ti-users" aria-hidden="true"></i>Contributors</a>
+          <a href="https://leapps.org#mailing"><i class="ti ti-mail" aria-hidden="true"></i>Mailing List</a>
+        </div>
+      </li>
+      <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <a href="https://leapps.org/releases" class="lp-nav-cta">Download</a>
+    <button class="lp-hamburger" id="lp-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="lp-mobile-menu" id="lp-mobile-menu">
+    <a href="https://leapps.org#tools" onclick="closeMobileMenu()">Tools</a>
+    <a href="https://leapps.org#lava" onclick="closeMobileMenu()">LAVA</a>
+    <a href="https://leapps.org/releases" onclick="closeMobileMenu()">Releases</a>
+    <a href="https://leapps.org/stats" onclick="closeMobileMenu()">Stats</a>
+    <a href="https://leapps.org/changelog" onclick="closeMobileMenu()">Changelog</a>
+    <a href="https://leapps.org#faq" onclick="closeMobileMenu()">FAQ</a>
+    <a href="https://leapps.org#mentions" onclick="closeMobileMenu()">Featured</a>
+    <a href="https://leapps.org#contributors" onclick="closeMobileMenu()">Contributors</a>
+    <a href="https://leapps.org#mailing" onclick="closeMobileMenu()">Mailing List</a>
+    <a href="https://github.com/abrignoni" target="_blank" rel="noopener" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <header class="lp-header">
+    <div class="lp-header-inner">
+      <span class="lp-eyebrow">All tools · All versions</span>
+      <h1>Change<span>log</span></h1>
+      <p>Unified release history across iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA — newest first. Data pulled live from GitHub.</p>
+    </div>
+  </header>
+
+  <main class="lp-main">
+
+    <div class="lp-cl-stats">
+      <div>
+        <div class="lp-cl-stat-num" id="stat-releases">—</div>
+        <div class="lp-cl-stat-lbl">Total releases</div>
+      </div>
+      <div>
+        <div class="lp-cl-stat-num" id="stat-tools">5</div>
+        <div class="lp-cl-stat-lbl">Tools tracked</div>
+      </div>
+      <div>
+        <div class="lp-cl-stat-num" id="stat-latest">—</div>
+        <div class="lp-cl-stat-lbl">Latest release</div>
+      </div>
+    </div>
+
+    <div class="lp-filter-bar">
+      <button class="lp-filter-btn active" data-tool="all" onclick="filterTool('all', this)">All</button>
+      <button class="lp-filter-btn" data-tool="lava" onclick="filterTool('lava', this)">LAVA</button>
+      <button class="lp-filter-btn" data-tool="ileapp" onclick="filterTool('ileapp', this)">iLEAPP</button>
+      <button class="lp-filter-btn" data-tool="aleapp" onclick="filterTool('aleapp', this)">ALEAPP</button>
+      <button class="lp-filter-btn" data-tool="rleapp" onclick="filterTool('rleapp', this)">RLEAPP</button>
+      <button class="lp-filter-btn" data-tool="vleapp" onclick="filterTool('vleapp', this)">VLEAPP</button>
+    </div>
+
+    <div id="changelog-container">
+      <div class="lp-cl-loading"><span>Fetching releases…</span></div>
+    </div>
+
+  </main>
+
+  <footer class="lp-footer">
+    <div class="lp-footer-logo">LEAPPs</div>
+    <p>Free digital forensics tools for practitioners worldwide.</p>
+    <div class="lp-footer-links">
+      <a href="https://leapps.org">Home</a>
+      <a href="https://leapps.org/releases">Releases</a>
+      <a href="https://leapps.org/changelog">Changelog</a>
+      <a href="https://leapps.org/stats">Stats</a>
+      <a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    const tools = [
+      { id: 'lava',   name: 'LAVA',   repo: 'leapps-org/LAVA-releases' },
+      { id: 'ileapp', name: 'iLEAPP', repo: 'abrignoni/iLEAPP' },
+      { id: 'aleapp', name: 'ALEAPP', repo: 'abrignoni/ALEAPP' },
+      { id: 'rleapp', name: 'RLEAPP', repo: 'abrignoni/RLEAPP' },
+      { id: 'vleapp', name: 'VLEAPP', repo: 'abrignoni/VLEAPP' },
+    ];
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function truncateBody(body, max = 200) {
+      if (!body) return '';
+      const plain = body.replace(/#{1,6}\s/g, '').replace(/\*\*/g, '').replace(/\*/g, '').replace(/`/g, '').trim();
+      if (plain.length <= max) return plain;
+      return plain.slice(0, max).trimEnd() + '…';
+    }
+
+    let allEntries = [];
+    let currentFilter = 'all';
+
+    function filterTool(tool, btn) {
+      currentFilter = tool;
+      document.querySelectorAll('.lp-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.lp-cl-entry').forEach(e => {
+        if (tool === 'all' || e.dataset.tool === tool) e.classList.remove('hidden');
+        else e.classList.add('hidden');
+      });
+      document.querySelectorAll('.lp-year-marker').forEach(m => {
+        const next = m.nextElementSibling;
+        if (!next) { m.style.display = 'none'; return; }
+        let hasVisible = false;
+        let el = m.nextElementSibling;
+        while (el && !el.classList.contains('lp-year-marker')) {
+          if (el.classList.contains('lp-cl-entry') && !el.classList.contains('hidden')) hasVisible = true;
+          el = el.nextElementSibling;
+        }
+        m.style.display = hasVisible ? '' : 'none';
+      });
+    }
+
+    function renderChangelog(entries) {
+      const container = document.getElementById('changelog-container');
+      if (!entries.length) {
+        container.innerHTML = '<div class="lp-cl-loading">No releases found.</div>';
+        return;
+      }
+
+      entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      document.getElementById('stat-releases').textContent = entries.length;
+      document.getElementById('stat-latest').textContent = entries[0].name + ' ' + entries[0].tag;
+
+      let html = '<div class="lp-timeline">';
+      let currentYear = null;
+
+      entries.forEach((entry, i) => {
+        const year = new Date(entry.date).getFullYear();
+        if (year !== currentYear) {
+          currentYear = year;
+          html += `<div class="lp-year-marker"><span class="lp-year-label">${year}</span></div>`;
+        }
+        const body = truncateBody(entry.body);
+        const releaseUrl = `https://github.com/${entry.repo}/releases/tag/${entry.tag}`;
+        html += `
+          <div class="lp-cl-entry${i === 0 ? ' latest' : ''}" data-tool="${entry.tool}">
+            <div class="lp-cl-meta">
+              <span class="lp-cl-date">${formatDate(entry.date)}</span>
+              <span class="lp-cl-tool ${entry.tool}">${entry.name}</span>
+              ${i === 0 ? '<span class="lp-cl-latest">Latest</span>' : ''}
+            </div>
+            <div class="lp-cl-version">${entry.tag}</div>
+            ${body ? `<div class="lp-cl-body">${body}</div>` : ''}
+            <a href="${releaseUrl}" class="lp-cl-link" target="_blank" rel="noopener"><i class="ti ti-external-link" aria-hidden="true"></i>View on GitHub</a>
+          </div>`;
+      });
+
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    async function fetchAll() {
+      try {
+        const results = await Promise.all(tools.map(async t => {
+          const res = await fetch(`https://leapps-api.4n6-198.workers.dev/repos/${t.repo}/releases?per_page=100`);
+          if (!res.ok) return [];
+          const releases = await res.json();
+          return releases.map(r => ({
+            tool: t.id,
+            name: t.name,
+            repo: t.repo,
+            tag: r.tag_name,
+            date: r.published_at,
+            body: r.body || ''
+          }));
+        }));
+        allEntries = results.flat();
+        renderChangelog(allEntries);
+      } catch(e) {
+        document.getElementById('changelog-container').innerHTML =
+          '<div class="lp-cl-loading">Could not load changelog. <a href="https://github.com/abrignoni" style="color:var(--gold)">View on GitHub →</a></div>';
+      }
+    }
+
+    fetchAll();
+
+    // Mobile hamburger
+    const hamburger = document.getElementById('lp-hamburger');
+    const mobileMenu = document.getElementById('lp-mobile-menu');
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    function closeMobileMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobileMenu();
+    });
+
+    // Back to top button
+    (function() {
+      var btn = document.createElement('button');
+      btn.setAttribute('aria-label', 'Back to top');
+      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+      btn.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;width:48px;height:48px;background:#F5C020;color:#0E0E0E;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s,background .2s;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.4);';
+      document.body.appendChild(btn);
+      function getScrollTop() { return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0; }
+      function onScroll() {
+        if (getScrollTop() > 200) { btn.style.opacity='1'; btn.style.pointerEvents='auto'; }
+        else { btn.style.opacity='0'; btn.style.pointerEvents='none'; }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      document.addEventListener('scroll', onScroll, { passive: true });
+      btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+        document.body.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      btn.addEventListener('mouseover', function() { btn.style.background='#D4A010'; });
+      btn.addEventListener('mouseout', function() { btn.style.background='#F5C020'; });
+    })();
+  </script>
+
+</body>
+</html>
