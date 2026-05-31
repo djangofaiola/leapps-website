@@ -137,7 +137,15 @@
       .lp-nav-cta { display: none; }
       .lp-table th:nth-child(n+4), .lp-table td:nth-child(n+4) { display: none; }
     }
+    /* THEME TOGGLE */
+    [data-theme="light"] { --off-black: #F5F2EC; --surface: #EAE6DE; --border: #C8C3B8; --text: #1C1A14; --muted: #6B6458; }
+    [data-theme="light"] .lp-nav { background: rgba(245,242,236,0.96); }
+    [data-theme="light"] .lp-nav-dropdown-menu { background: rgba(245,242,236,.98); }
+    [data-theme="light"] .lp-mobile-menu { background: rgba(245,242,236,.98); }
+    .lp-theme-toggle { background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .2s, border-color .2s; font-size: 1rem; flex-shrink: 0; }
+    .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
   </style>
+  <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('lp-theme')||'dark');</script>
 </head>
 <body>
 
@@ -163,6 +171,7 @@
       <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <a href="https://leapps.org/releases" class="lp-nav-cta">Download</a>
+    <button class="lp-theme-toggle" id="lp-theme-toggle" aria-label="Toggle theme"><i class="ti ti-sun" id="lp-theme-icon" aria-hidden="true"></i></button>
     <button class="lp-hamburger" id="lp-hamburger" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
@@ -444,6 +453,16 @@
     document.addEventListener('click', function(e) {
       if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobileMenu();
     });
+  </script>
+  <script>
+    (function(){
+      var btn=document.getElementById('lp-theme-toggle');
+      var icon=document.getElementById('lp-theme-icon');
+      var t=localStorage.getItem('lp-theme')||'dark';
+      function apply(theme){document.documentElement.setAttribute('data-theme',theme);icon.className=theme==='light'?'ti ti-moon':'ti ti-sun';}
+      apply(t);
+      btn.addEventListener('click',function(){t=t==='dark'?'light':'dark';localStorage.setItem('lp-theme',t);apply(t);});
+    })();
   </script>
 
 </body>
