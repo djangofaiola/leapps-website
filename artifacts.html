@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artifacts — LEAPPs</title>
+  <meta name="description" content="Browse all artifacts supported by iLEAPP, ALEAPP, RLEAPP, and VLEAPP — searchable and filterable by tool and category." />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://leapps.org/artifacts" />
+  <meta property="og:title" content="Artifacts — LEAPPs" />
+  <meta property="og:description" content="Browse all artifacts supported by iLEAPP, ALEAPP, RLEAPP, and VLEAPP." />
+  <meta property="og:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+  <meta property="og:site_name" content="LEAPPs" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Artifacts — LEAPPs" />
+  <meta name="twitter:description" content="Browse all artifacts supported by iLEAPP, ALEAPP, RLEAPP, and VLEAPP." />
+  <meta name="twitter:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #F5C020; --gold-dk: #D4A010; --off-black: #0E0E0E;
+      --surface: #161616; --border: #2C2C2C; --text: #F0EDE6; --muted: #888888;
+      --font-head: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --color-ileapp: #ff7070;
+      --color-aleapp: #6ddc8c;
+      --color-rleapp: #64b4ff;
+      --color-vleapp: #bf80ff;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--off-black); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+
+    /* NAV */
+    .lp-nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(14,14,14,0.96); backdrop-filter: blur(8px); z-index: 1000; }
+    .lp-nav-logo { font-family: var(--font-head); font-size: 1.4rem; font-weight: 900; letter-spacing: .05em; color: var(--text); text-decoration: none; }
+    .lp-nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .lp-nav-links a { color: var(--muted); text-decoration: none !important; font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; transition: color .2s; }
+    .lp-nav-links a:hover { color: var(--gold); }
+    .lp-nav-links a.active { color: var(--gold); }
+    .lp-nav-cta { background: var(--gold); color: var(--off-black) !important; padding: .5rem 1.25rem; font-family: var(--font-head); font-weight: 700; font-size: .9rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none !important; transition: background .2s; }
+    .lp-nav-cta:hover { background: var(--gold-dk) !important; color: var(--off-black) !important; }
+    .lp-nav-dropdown { position: relative; }
+    .lp-nav-dropdown-trigger { color: var(--muted); font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: .3rem; user-select: none; transition: color .2s; }
+    .lp-nav-dropdown-trigger i.lp-chev { font-size: .75rem; transition: transform .2s; }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-trigger { color: var(--gold); }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-trigger i.lp-chev { transform: rotate(180deg); }
+    .lp-nav-dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: rgba(14,14,14,.98); backdrop-filter: blur(8px); border: 1px solid var(--border); min-width: 180px; z-index: 1001; flex-direction: column; padding-top: 12px; }
+    .lp-nav-dropdown-menu::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px; background: transparent; }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-menu { display: flex; }
+    .lp-nav-dropdown-menu a { color: var(--muted) !important; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; padding: .65rem 1rem; text-decoration: none !important; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .5rem; transition: color .2s, background .2s; }
+    .lp-nav-dropdown-menu a:last-child { border-bottom: none; }
+    .lp-nav-dropdown-menu a:hover { color: var(--gold) !important; background: var(--surface); }
+    .lp-nav-dropdown-menu i { font-size: .9rem; color: var(--gold); }
+
+    /* HAMBURGER */
+    .lp-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .lp-hamburger span { display: block; width: 100%; height: 2px; background: var(--text); transition: transform .25s, opacity .25s; transform-origin: center; }
+    .lp-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .lp-hamburger.open span:nth-child(2) { opacity: 0; }
+    .lp-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .lp-mobile-menu { display: none; position: fixed; top: 57px; left: 0; right: 0; background: rgba(14,14,14,.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); z-index: 999; padding: 1rem 2rem 1.5rem; flex-direction: column; gap: .25rem; }
+    .lp-mobile-menu.open { display: flex; }
+    .lp-mobile-menu a { color: var(--muted); text-decoration: none; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; padding: .75rem 0; border-bottom: 1px solid var(--border); transition: color .2s; }
+    .lp-mobile-menu a:last-child { border-bottom: none; }
+    .lp-mobile-menu a:hover { color: var(--gold); }
+
+    /* PAGE HEADER */
+    .lp-header { padding: 3.5rem 2rem 3rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .lp-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(245,192,32,.06) 0%, transparent 70%); pointer-events: none; }
+    .lp-header-inner { max-width: 1100px; margin: 0 auto; }
+    .lp-eyebrow { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
+    .lp-header h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; text-transform: uppercase; line-height: .95; margin-bottom: 1rem; }
+    .lp-header h1 span { color: var(--gold); }
+    .lp-header p { color: var(--muted); font-size: 1rem; max-width: 520px; line-height: 1.7; }
+
+    /* MAIN */
+    .lp-main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+    /* STATS ROW */
+    .lp-artifact-stats { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .lp-artifact-stat-num { font-family: var(--font-head); font-size: 1.5rem; font-weight: 900; color: var(--gold); }
+    .lp-artifact-stat-lbl { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .1rem; }
+
+    /* CONTROLS */
+    .lp-controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.25rem; }
+    .lp-search-wrap { flex: 1; min-width: 200px; position: relative; }
+    .lp-search-wrap i { position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; pointer-events: none; }
+    .lp-search { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: .875rem; padding: .55rem .75rem .55rem 2.25rem; outline: none; transition: border-color .2s; }
+    .lp-search::placeholder { color: #555; }
+    .lp-search:focus { border-color: #444; }
+    .lp-cat-select { background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-family: var(--font-mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; padding: .55rem .75rem; outline: none; cursor: pointer; transition: border-color .2s; }
+    .lp-cat-select:focus { border-color: #444; }
+
+    /* TOOL FILTER */
+    .lp-tool-filter { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .lp-tool-btn { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; padding: .35rem .85rem; border: 1px solid var(--border); color: var(--muted); background: none; cursor: pointer; transition: border-color .2s, color .2s, background .2s; }
+    .lp-tool-btn:hover { border-color: #444; color: var(--text); }
+    .lp-tool-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(245,192,32,.08); }
+    .lp-tool-btn[data-tool="ileapp"].active { border-color: var(--color-ileapp); color: var(--color-ileapp); background: rgba(255,112,112,.08); }
+    .lp-tool-btn[data-tool="aleapp"].active { border-color: var(--color-aleapp); color: var(--color-aleapp); background: rgba(109,220,140,.08); }
+    .lp-tool-btn[data-tool="rleapp"].active { border-color: var(--color-rleapp); color: var(--color-rleapp); background: rgba(100,180,255,.08); }
+    .lp-tool-btn[data-tool="vleapp"].active { border-color: var(--color-vleapp); color: var(--color-vleapp); background: rgba(191,128,255,.08); }
+
+    /* RESULTS META */
+    .lp-results-meta { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .06em; color: var(--muted); margin-bottom: 1rem; min-height: 1.2rem; }
+    .lp-results-meta span { color: var(--gold); }
+
+    /* PROGRESS */
+    .lp-progress-bar-wrap { height: 2px; background: var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+    .lp-progress-bar { height: 100%; background: var(--gold); width: 0%; transition: width .3s ease; }
+    .lp-progress-label { font-family: var(--font-mono); font-size: .65rem; color: var(--muted); margin-bottom: .75rem; letter-spacing: .06em; }
+    .lp-progress-label span { color: var(--gold); }
+
+    /* TABLE */
+    .lp-table-wrap { overflow-x: auto; }
+    .lp-table { width: 100%; border-collapse: collapse; }
+    .lp-table th { text-align: left; font-family: var(--font-mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: .6rem 1rem; border-bottom: 1px solid var(--border); font-weight: 400; white-space: nowrap; }
+    .lp-table td { padding: .9rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; font-size: .875rem; }
+    .lp-table tr:last-child td { border-bottom: none; }
+    .lp-table tr:hover td { background: var(--surface); }
+    .lp-table tr.hidden { display: none; }
+
+    /* ARTIFACT NAME CELL */
+    .lp-art-name { font-family: var(--font-head); font-size: 1rem; font-weight: 700; text-transform: uppercase; color: var(--text); line-height: 1.15; }
+    .lp-art-desc { font-size: .78rem; color: var(--muted); margin-top: .2rem; line-height: 1.5; }
+
+    /* TOOL BADGE */
+    .lp-tool-tag { display: inline-block; font-family: var(--font-mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .5rem; border: 1px solid; white-space: nowrap; }
+    .lp-tool-tag.ileapp { color: var(--color-ileapp); border-color: rgba(255,112,112,.3); }
+    .lp-tool-tag.aleapp { color: var(--color-aleapp); border-color: rgba(109,220,140,.3); }
+    .lp-tool-tag.rleapp { color: var(--color-rleapp); border-color: rgba(100,180,255,.3); }
+    .lp-tool-tag.vleapp { color: var(--color-vleapp); border-color: rgba(191,128,255,.3); }
+
+    /* OUTPUT TYPE BADGES */
+    .lp-output-types { display: flex; gap: .3rem; flex-wrap: wrap; }
+    .lp-output-badge { font-family: var(--font-mono); font-size: .55rem; letter-spacing: .08em; text-transform: uppercase; padding: .1rem .4rem; border: 1px solid var(--border); color: #666; white-space: nowrap; }
+    .lp-output-badge.lava { border-color: rgba(245,192,32,.3); color: var(--gold); }
+    .lp-output-badge.html { border-color: rgba(100,180,255,.3); color: #64b4ff; }
+    .lp-output-badge.tsv  { border-color: rgba(109,220,140,.3); color: #6ddc8c; }
+    .lp-output-badge.timeline { border-color: rgba(191,128,255,.3); color: #bf80ff; }
+
+    /* PATHS TOGGLE */
+    .lp-paths-toggle { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .08em; color: var(--muted); cursor: pointer; background: none; border: none; padding: 0; display: inline-flex; align-items: center; gap: .3rem; transition: color .2s; margin-top: .35rem; }
+    .lp-paths-toggle:hover { color: var(--gold); }
+    .lp-paths-list { display: none; margin-top: .4rem; }
+    .lp-paths-list.open { display: block; }
+    .lp-path-item { font-family: var(--font-mono); font-size: .65rem; color: #666; padding: .15rem 0; word-break: break-all; }
+
+    /* SKELETON */
+    @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
+    .lp-skel { display: block; border-radius: 2px; background: linear-gradient(90deg, var(--border) 25%, var(--surface) 50%, var(--border) 75%); background-size: 800px 100%; animation: shimmer 1.5s infinite; }
+
+    /* ERROR */
+    .lp-tool-error { font-family: var(--font-mono); font-size: .72rem; color: #cc7777; padding: .5rem 1rem; border: 1px solid #5a2020; background: rgba(90,32,32,.1); margin-bottom: .5rem; display: flex; align-items: center; gap: .5rem; }
+    .lp-tool-error i { font-size: .9rem; flex-shrink: 0; }
+
+    /* NO RESULTS */
+    .lp-no-results { text-align: center; padding: 3rem 2rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); border: 1px solid var(--border); background: var(--surface); display: none; }
+    .lp-no-results.visible { display: block; }
+
+    /* FOOTER */
+    .lp-footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
+    .lp-footer-logo { font-family: var(--font-head); font-size: 1.2rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+    .lp-footer p { font-size: .8rem; color: #555; }
+    .lp-footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+    .lp-footer-links a { color: #555 !important; text-decoration: none !important; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    .lp-footer-links a:hover { color: var(--gold) !important; }
+
+    @media (max-width: 768px) {
+      .lp-nav-links { display: none; }
+      .lp-hamburger { display: flex; }
+      .lp-nav-cta { display: none; }
+      .lp-table th:nth-child(4), .lp-table td:nth-child(4) { display: none; }
+    }
+
+    /* THEME TOGGLE */
+    [data-theme="light"] { --off-black: #F5F2EC; --surface: #EAE6DE; --border: #C8C3B8; --text: #1C1A14; --muted: #6B6458; }
+    #lp-root { margin: 0 8px; }
+    [data-theme="light"] body, [data-theme="light"] #lp-root, [data-theme="light"] section,
+    [data-theme="light"] main, [data-theme="light"] footer, [data-theme="light"] #canvas,
+    [data-theme="light"] #page, [data-theme="light"] #content, [data-theme="light"] .page-section,
+    [data-theme="light"] .page-section-wrapper,
+    [data-theme="light"] .sqs-layout { background-color: #F5F2EC !important; }
+    [data-theme="light"] body { color: #1C1A14 !important; }
+    [data-theme="light"] .lp-nav { background: rgba(245,242,236,0.96); }
+    [data-theme="light"] .lp-nav-dropdown-menu { background: rgba(245,242,236,.98); }
+    [data-theme="light"] .lp-mobile-menu { background: rgba(245,242,236,.98); }
+    .lp-theme-toggle { background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .2s, border-color .2s; font-size: 1rem; flex-shrink: 0; }
+    .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  </style>
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('lp-theme') || 'dark');</script>
+</head>
+<body>
+<div id="lp-root">
+
+  <nav class="lp-nav">
+    <a href="https://leapps.org" class="lp-nav-logo">LEAPPs</a>
+    <ul class="lp-nav-links">
+      <li><a href="https://leapps.org#tools">Tools</a></li>
+      <li><a href="https://leapps.org#lava">LAVA</a></li>
+      <li><a href="https://leapps.org/releases">Releases</a></li>
+      <li><a href="https://leapps.org/stats">Stats</a></li>
+      <li><a href="https://leapps.org/changelog">Changelog</a></li>
+      <li><a href="https://leapps.org/artifacts" class="active">Artifacts</a></li>
+      <li class="lp-nav-dropdown">
+        <div class="lp-nav-dropdown-trigger">Community <i class="ti ti-chevron-down lp-chev" aria-hidden="true"></i></div>
+        <div class="lp-nav-dropdown-menu">
+          <a href="https://leapps.org#faq"><i class="ti ti-help-circle" aria-hidden="true"></i>FAQ</a>
+          <a href="https://leapps.org#mentions"><i class="ti ti-award" aria-hidden="true"></i>Featured</a>
+          <a href="https://leapps.org#contributors"><i class="ti ti-users" aria-hidden="true"></i>Contributors</a>
+          <a href="https://leapps.org/scoreboard"><i class="ti ti-trophy" aria-hidden="true"></i>Scoreboard</a>
+          <a href="https://leapps.org#mailing"><i class="ti ti-mail" aria-hidden="true"></i>Mailing List</a>
+          <a href="https://leapps.org/resources"><i class="ti ti-books" aria-hidden="true"></i>Resources</a>
+        </div>
+      </li>
+      <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <a href="https://leapps.org/releases" class="lp-nav-cta">Download</a>
+    <button class="lp-theme-toggle" id="lp-theme-toggle" aria-label="Toggle theme"><i class="ti ti-sun" id="lp-theme-icon" aria-hidden="true"></i></button>
+    <button class="lp-hamburger" id="lp-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="lp-mobile-menu" id="lp-mobile-menu">
+    <a href="https://leapps.org#tools" onclick="closeMobileMenu()">Tools</a>
+    <a href="https://leapps.org#lava" onclick="closeMobileMenu()">LAVA</a>
+    <a href="https://leapps.org/releases" onclick="closeMobileMenu()">Releases</a>
+    <a href="https://leapps.org/stats" onclick="closeMobileMenu()">Stats</a>
+    <a href="https://leapps.org/changelog" onclick="closeMobileMenu()">Changelog</a>
+    <a href="https://leapps.org/artifacts" onclick="closeMobileMenu()">Artifacts</a>
+    <a href="https://leapps.org#faq" onclick="closeMobileMenu()">FAQ</a>
+    <a href="https://leapps.org#mentions" onclick="closeMobileMenu()">Featured</a>
+    <a href="https://leapps.org#contributors" onclick="closeMobileMenu()">Contributors</a>
+    <a href="https://leapps.org/scoreboard" onclick="closeMobileMenu()">Scoreboard</a>
+    <a href="https://leapps.org#mailing" onclick="closeMobileMenu()">Mailing List</a>
+    <a href="https://leapps.org/resources" onclick="closeMobileMenu()">Resources</a>
+    <a href="https://github.com/abrignoni" target="_blank" rel="noopener" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <header class="lp-header">
+    <div class="lp-header-inner">
+      <span class="lp-eyebrow">Live from GitHub</span>
+      <h1>Artifact <span>Browser</span></h1>
+      <p>Browse and search every artifact supported across iLEAPP, ALEAPP, RLEAPP, and VLEAPP — pulled live from the source code.</p>
+    </div>
+  </header>
+
+  <main class="lp-main">
+
+    <!-- STATS -->
+    <div class="lp-artifact-stats">
+      <div>
+        <div class="lp-artifact-stat-num" id="stat-total">—</div>
+        <div class="lp-artifact-stat-lbl">Total artifacts</div>
+      </div>
+      <div>
+        <div class="lp-artifact-stat-num" id="stat-categories">—</div>
+        <div class="lp-artifact-stat-lbl">Categories</div>
+      </div>
+      <div>
+        <div class="lp-artifact-stat-num" id="stat-tools">4</div>
+        <div class="lp-artifact-stat-lbl">Tools</div>
+      </div>
+    </div>
+
+    <!-- ERRORS (populated if any tool fails) -->
+    <div id="error-container"></div>
+
+    <!-- PROGRESS -->
+    <div id="progress-wrap">
+      <div class="lp-progress-label" id="progress-label">Loading artifacts… <span id="progress-text"></span></div>
+      <div class="lp-progress-bar-wrap"><div class="lp-progress-bar" id="progress-bar"></div></div>
+    </div>
+
+    <!-- TOOL FILTER -->
+    <div class="lp-tool-filter">
+      <button class="lp-tool-btn active" data-tool="all">All Tools</button>
+      <button class="lp-tool-btn" data-tool="ileapp">iLEAPP</button>
+      <button class="lp-tool-btn" data-tool="aleapp">ALEAPP</button>
+      <button class="lp-tool-btn" data-tool="rleapp">RLEAPP</button>
+      <button class="lp-tool-btn" data-tool="vleapp">VLEAPP</button>
+    </div>
+
+    <!-- SEARCH + CATEGORY -->
+    <div class="lp-controls">
+      <div class="lp-search-wrap">
+        <i class="ti ti-search" aria-hidden="true"></i>
+        <input class="lp-search" id="search-input" type="search" placeholder="Search artifact name, category, or file path…" />
+      </div>
+      <select class="lp-cat-select" id="cat-select" aria-label="Filter by category">
+        <option value="all">All Categories</option>
+      </select>
+    </div>
+
+    <!-- RESULTS META -->
+    <div class="lp-results-meta" id="results-meta"></div>
+
+    <!-- TABLE -->
+    <div class="lp-table-wrap">
+      <table class="lp-table" aria-label="Artifact list">
+        <thead>
+          <tr>
+            <th>Artifact</th>
+            <th>Tool</th>
+            <th>Category</th>
+            <th>Output Types</th>
+          </tr>
+        </thead>
+        <tbody id="artifacts-tbody">
+          <tr><td><span class="lp-skel" style="height:1rem;width:160px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:240px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:90px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:140px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:200px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:180px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:220px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:100px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:130px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:190px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:75px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:170px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:210px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:85px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="lp-no-results" id="no-results">No artifacts match your search.</div>
+
+  </main>
+
+  <footer class="lp-footer">
+    <div class="lp-footer-logo">LEAPPs</div>
+    <p>Free digital forensics tools for practitioners worldwide.</p>
+    <div class="lp-footer-links">
+      <a href="https://leapps.org">Home</a>
+      <a href="https://leapps.org/releases">Releases</a>
+      <a href="https://leapps.org/artifacts">Artifacts</a>
+      <a href="https://leapps.org/stats">Stats</a>
+      <a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    const TOOLS = [
+      { id: 'ileapp', name: 'iLEAPP', repo: 'abrignoni/iLEAPP' },
+      { id: 'aleapp', name: 'ALEAPP', repo: 'abrignoni/ALEAPP' },
+      { id: 'rleapp', name: 'RLEAPP', repo: 'abrignoni/RLEAPP' },
+      { id: 'vleapp', name: 'VLEAPP', repo: 'abrignoni/VLEAPP' },
+    ];
+
+    const API = 'https://leapps-api.4n6-198.workers.dev';
+    const ARTIFACTS_PATH = 'scripts/artifacts';
+
+    // ── PARSER ──────────────────────────────────────────────────────────────
+
+    function extractStr(body, field) {
+      const m = body.match(new RegExp(`['"]${field}['"]\\s*:\\s*['"]([^'"]*?)['"]`));
+      return m ? m[1] : '';
+    }
+
+    function extractPaths(body) {
+      const m = body.match(/['"]paths['"]\s*:\s*\(([^)]*)\)/s);
+      if (!m) return [];
+      return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1]);
+    }
+
+    function extractOutputTypes(body) {
+      const m = body.match(/['"]output_types['"]\s*:\s*\[([^\]]*)\]/s);
+      if (!m) return [];
+      return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1]);
+    }
+
+    function parseV2(content, toolId, filename) {
+      const results = [];
+      const startIdx = content.indexOf('__artifacts_v2__');
+      if (startIdx === -1) return results;
+
+      let i = content.indexOf('{', startIdx);
+      if (i === -1) return results;
+      i++; // step past outer opening brace
+
+      while (i < content.length) {
+        // Skip whitespace and commas
+        while (i < content.length && /[\s,]/.test(content[i])) i++;
+        if (i >= content.length) break;
+        // End of outer dict
+        if (content[i] === '}') break;
+        // Skip comments
+        if (content[i] === '#') { while (i < content.length && content[i] !== '\n') i++; continue; }
+
+        // Expect "key":
+        const keyM = content.slice(i).match(/^"([^"]+)"\s*:/);
+        if (!keyM) { i++; continue; }
+        const key = keyM[1];
+        i += keyM[0].length;
+
+        // Find opening { of this entry's dict
+        while (i < content.length && content[i] !== '{') i++;
+        if (i >= content.length) break;
+        const bodyStart = ++i;
+        let depth = 1;
+        while (i < content.length && depth > 0) {
+          if (content[i] === '{') depth++;
+          else if (content[i] === '}') depth--;
+          i++;
+        }
+        const body = content.slice(bodyStart, i - 1);
+
+        const name = extractStr(body, 'name') || key;
+        const category = extractStr(body, 'category');
+        if (!name && !category) continue;
+
+        results.push({
+          key, name, toolId, filename,
+          description: extractStr(body, 'description'),
+          category: category || 'Uncategorized',
+          author: extractStr(body, 'author'),
+          paths: extractPaths(body),
+          outputTypes: extractOutputTypes(body),
+        });
+      }
+      return results;
+    }
+
+    function parseV1(content, toolId, filename) {
+      const results = [];
+      const startIdx = content.indexOf('__artifacts__');
+      if (startIdx === -1) return results;
+      const block = content.slice(startIdx);
+      // Match "ArtifactKey": ( "Category", ...
+      const re = /"([^"]+)"\s*:\s*\(\s*\n?\s*"([^"]+)"/g;
+      let m;
+      while ((m = re.exec(block)) !== null) {
+        results.push({
+          key: m[1], name: m[1], toolId, filename,
+          description: '', category: m[2] || 'Uncategorized',
+          author: '', paths: [], outputTypes: [],
+        });
+      }
+      return results;
+    }
+
+    function parseFile(content, toolId, filename) {
+      if (content.includes('__artifacts_v2__')) return parseV2(content, toolId, filename);
+      if (content.includes('__artifacts__')) return parseV1(content, toolId, filename);
+      return [];
+    }
+
+    // ── FETCH ────────────────────────────────────────────────────────────────
+
+    let totalFiles = 0;
+    let loadedFiles = 0;
+
+    function updateProgress(label) {
+      loadedFiles++;
+      const pct = totalFiles > 0 ? Math.round((loadedFiles / totalFiles) * 100) : 0;
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = `${loadedFiles} / ${totalFiles} files`;
+    }
+
+    async function fetchToolArtifacts(tool) {
+      const listRes = await fetch(`${API}/repos/${tool.repo}/contents/${ARTIFACTS_PATH}`);
+      if (!listRes.ok) throw new Error(`HTTP ${listRes.status}`);
+      const files = await listRes.json();
+      if (!Array.isArray(files)) throw new Error('Unexpected response');
+
+      const pyFiles = files.filter(f => f.name.endsWith('.py') && f.name !== '__init__.py' && f.type === 'file');
+      totalFiles += pyFiles.length;
+
+      const artifacts = [];
+      await Promise.all(pyFiles.map(async f => {
+        try {
+          const res = await fetch(f.download_url);
+          const text = res.ok ? await res.text() : '';
+          parseFile(text, tool.id, f.name).forEach(a => artifacts.push(a));
+        } catch (_) { /* skip bad files silently */ } finally {
+          updateProgress();
+        }
+      }));
+
+      return artifacts;
+    }
+
+    // ── RENDER ───────────────────────────────────────────────────────────────
+
+    let allArtifacts = [];
+    let activeTool = 'all';
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    function escHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function buildRow(a, idx) {
+      const toolLabel = TOOLS.find(t => t.id === a.toolId)?.name || a.toolId;
+      const outputBadges = a.outputTypes.map(t =>
+        `<span class="lp-output-badge ${escHtml(t.toLowerCase())}">${escHtml(t)}</span>`
+      ).join('');
+      const pathsHtml = a.paths.length
+        ? `<button class="lp-paths-toggle" onclick="togglePaths(this)" aria-expanded="false">
+            <i class="ti ti-file-code" aria-hidden="true"></i>${a.paths.length} path${a.paths.length > 1 ? 's' : ''}
+           </button>
+           <div class="lp-paths-list">
+             ${a.paths.map(p => `<div class="lp-path-item">${escHtml(p)}</div>`).join('')}
+           </div>` : '';
+
+      const ghBase = `https://github.com/${TOOLS.find(t => t.id === a.toolId)?.repo}/blob/main/${ARTIFACTS_PATH}/${escHtml(a.filename)}`;
+
+      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.paths.join(' ')).toLowerCase())}">
+        <td>
+          <div class="lp-art-name"><a href="${ghBase}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">${escHtml(a.name)}</a></div>
+          ${a.description ? `<div class="lp-art-desc">${escHtml(a.description)}</div>` : ''}
+          ${pathsHtml}
+        </td>
+        <td><span class="lp-tool-tag ${escHtml(a.toolId)}">${escHtml(toolLabel)}</span></td>
+        <td style="font-size:.82rem;color:var(--muted)">${escHtml(a.category)}</td>
+        <td><div class="lp-output-types">${outputBadges}</div></td>
+      </tr>`;
+    }
+
+    function populateCategorySelect(artifacts) {
+      const cats = [...new Set(artifacts.map(a => a.category))].sort();
+      const sel = document.getElementById('cat-select');
+      cats.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+
+    function applyFilters() {
+      const rows = document.querySelectorAll('#artifacts-tbody tr[data-tool]');
+      let visible = 0;
+      rows.forEach(row => {
+        const toolMatch = activeTool === 'all' || row.dataset.tool === activeTool;
+        const catMatch = activeCategory === 'all' || row.dataset.category === activeCategory;
+        const searchMatch = !searchQuery || row.dataset.search.includes(searchQuery);
+        const show = toolMatch && catMatch && searchMatch;
+        row.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      const meta = document.getElementById('results-meta');
+      meta.innerHTML = `Showing <span>${visible}</span> of <span>${allArtifacts.length}</span> artifacts`;
+      document.getElementById('no-results').classList.toggle('visible', visible === 0 && allArtifacts.length > 0);
+    }
+
+    function renderAll() {
+      const sorted = [...allArtifacts].sort((a, b) => a.name.localeCompare(b.name));
+      document.getElementById('artifacts-tbody').innerHTML = sorted.map((a, i) => buildRow(a, i)).join('');
+      populateCategorySelect(allArtifacts);
+
+      const cats = new Set(allArtifacts.map(a => a.category));
+      document.getElementById('stat-total').textContent = allArtifacts.length.toLocaleString();
+      document.getElementById('stat-categories').textContent = cats.size.toLocaleString();
+
+      document.getElementById('progress-wrap').style.display = 'none';
+      applyFilters();
+    }
+
+    function togglePaths(btn) {
+      const list = btn.nextElementSibling;
+      const open = list.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+      btn.querySelector('i').className = open ? 'ti ti-file-code' : 'ti ti-file-code';
+    }
+
+    // ── INIT ─────────────────────────────────────────────────────────────────
+
+    async function init() {
+      const errContainer = document.getElementById('error-container');
+      const toolErrors = [];
+
+      const results = await Promise.allSettled(TOOLS.map(fetchToolArtifacts));
+
+      results.forEach((r, i) => {
+        if (r.status === 'fulfilled') {
+          allArtifacts.push(...r.value);
+        } else {
+          toolErrors.push({ tool: TOOLS[i], reason: r.reason?.message || 'Unknown error' });
+        }
+      });
+
+      if (toolErrors.length) {
+        errContainer.innerHTML = toolErrors.map(e =>
+          `<div class="lp-tool-error"><i class="ti ti-alert-circle"></i>
+           Could not load <strong>${escHtml(e.tool.name)}</strong> artifacts: ${escHtml(e.reason)}.
+           <a href="https://github.com/${escHtml(e.tool.repo)}/tree/main/${ARTIFACTS_PATH}" target="_blank" rel="noopener" style="color:var(--gold);margin-left:.5rem">View on GitHub →</a></div>`
+        ).join('');
+      }
+
+      if (allArtifacts.length === 0) {
+        document.getElementById('progress-wrap').style.display = 'none';
+        document.getElementById('artifacts-tbody').innerHTML =
+          `<tr><td colspan="4" style="text-align:center;padding:3rem;font-family:var(--font-mono);font-size:.8rem;color:var(--muted)">No artifacts loaded. <a href="https://github.com/abrignoni" target="_blank" rel="noopener" style="color:var(--gold)">View on GitHub →</a></td></tr>`;
+        return;
+      }
+
+      renderAll();
+    }
+
+    // ── EVENT LISTENERS ──────────────────────────────────────────────────────
+
+    document.querySelectorAll('.lp-tool-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lp-tool-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeTool = btn.dataset.tool;
+        applyFilters();
+      });
+    });
+
+    document.getElementById('cat-select').addEventListener('change', e => {
+      activeCategory = e.target.value;
+      applyFilters();
+    });
+
+    document.getElementById('search-input').addEventListener('input', e => {
+      searchQuery = e.target.value.trim().toLowerCase();
+      applyFilters();
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('lp-hamburger');
+    const mobileMenu = document.getElementById('lp-mobile-menu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    function closeMobileMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+    document.addEventListener('click', e => {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobileMenu();
+    });
+
+    // Back to top
+    (function() {
+      var btn = document.createElement('button');
+      btn.setAttribute('aria-label', 'Back to top');
+      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+      btn.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;width:48px;height:48px;background:#F5C020;color:#0E0E0E;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s,background .2s;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.4);';
+      document.body.appendChild(btn);
+      function onScroll() {
+        var top = window.scrollY || document.documentElement.scrollTop || 0;
+        btn.style.opacity = top > 200 ? '1' : '0';
+        btn.style.pointerEvents = top > 200 ? 'auto' : 'none';
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      btn.addEventListener('mouseover', () => { btn.style.background = '#D4A010'; });
+      btn.addEventListener('mouseout', () => { btn.style.background = '#F5C020'; });
+    })();
+
+    init();
+  </script>
+  <script>
+    (function() {
+      var btn = document.getElementById('lp-theme-toggle');
+      var icon = document.getElementById('lp-theme-icon');
+      var t = localStorage.getItem('lp-theme') || 'dark';
+      function apply(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        icon.className = theme === 'light' ? 'ti ti-moon' : 'ti ti-sun';
+      }
+      apply(t);
+      btn.addEventListener('click', () => { t = t === 'dark' ? 'light' : 'dark'; localStorage.setItem('lp-theme', t); apply(t); });
+    })();
+  </script>
+
+</div>
+</body>
+</html>
