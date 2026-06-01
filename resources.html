@@ -194,6 +194,68 @@
     }
     .lp-res-card-icon i { font-size: 1.4rem; color: var(--gold); }
 
+    /* MENTION CARDS */
+    .lp-mentions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .lp-mention-card {
+      background: var(--off-black);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      position: relative;
+      transition: background .2s;
+      text-decoration: none !important;
+    }
+    .lp-mention-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s;
+    }
+    .lp-mention-card:hover { background: var(--surface); }
+    .lp-mention-card:hover::before { transform: scaleX(1); }
+    .lp-mention-category {
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .lp-mention-name {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .lp-mention-desc {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--muted);
+      margin-top: .1rem;
+    }
+    .lp-mention-ext {
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      color: #444;
+      margin-top: auto;
+      padding-top: .5rem;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
     /* FOOTER */
     .lp-footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
     .lp-footer-logo { font-family: var(--font-head); font-size: 1.2rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
@@ -392,6 +454,109 @@
           </div>
         </a>
 
+      </div>
+    </div>
+
+    <!-- FEATURED & RECOGNIZED -->
+    <div class="lp-res-section" id="mentions">
+      <div class="lp-res-section-label"><i class="ti ti-award"></i> Featured &amp; Recognized</div>
+      <div class="lp-mentions-grid">
+        <a href="https://www.youtube.com/watch?v=-VbNreAFL6I" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Conference</div>
+          <div class="lp-mention-name">OSDFCon</div>
+          <div class="lp-mention-desc">2020</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.sans.org/cyber-security-courses/advanced-smartphone-mobile-device-forensics" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Training</div>
+          <div class="lp-mention-name">SANS FOR585</div>
+          <div class="lp-mention-desc">Advanced Smartphone Forensics</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.iacis.com/events/online-training/online-amdf-advanced-mobile-device-forensics/" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Training</div>
+          <div class="lp-mention-name">IACIS Advanced Mobile Forensics</div>
+          <div class="lp-mention-desc">Course</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.iacis.com/courses/mobile-device-forensics/" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Training</div>
+          <div class="lp-mention-name">IACIS Mobile Forensics</div>
+          <div class="lp-mention-desc">Course</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.forensicfocus.com/interviews/alexis-brignoni-special-agent-and-digital-forensic-examiner-fbi/" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Publication</div>
+          <div class="lp-mention-name">Forensic Focus</div>
+          <div class="lp-mention-desc">Interview</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=l_YFbO4Cpis" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Podcast</div>
+          <div class="lp-mention-name">Magnet Forensics Cache Up</div>
+          <div class="lp-mention-desc">Episode</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://cellebrite.com/en/series/ileapp-and-aleapp-alexis-brignoni-special-agent-at-fbi/" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Publication</div>
+          <div class="lp-mention-name">Cellebrite Blog</div>
+          <div class="lp-mention-desc">iLEAPP &amp; ALEAPP Series</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://cellebrite.com/en/series/getting-started-with-ileap-and-aleap-a-fundamental-approach/" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Publication</div>
+          <div class="lp-mention-name">Cellebrite Blog</div>
+          <div class="lp-mention-desc">Getting Started Series</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=4LcQm4ErXpA" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Conference</div>
+          <div class="lp-mention-name">SANS DFIR Summit</div>
+          <div class="lp-mention-desc">Presentation</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.sans.org/about/awards/difference-makers/past-winners" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Award</div>
+          <div class="lp-mention-name">SANS Difference Makers</div>
+          <div class="lp-mention-desc">2022</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.magnetforensics.com/resources/beneficios-del-uso-de-herramientas-de-fuente-abierta-para-asistir-y-fortalecer-las-investigaciones-de-peritaje-forense-digital/" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Conference</div>
+          <div class="lp-mention-name">Magnet Virtual Summit</div>
+          <div class="lp-mention-desc">2023</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=JYUPc-1nWe0" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Webinar</div>
+          <div class="lp-mention-name">Cellebrite The Dig Series</div>
+          <div class="lp-mention-desc">Webinar</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=x3Oob_hLDak" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Podcast</div>
+          <div class="lp-mention-name">The CyberSocial Hub</div>
+          <div class="lp-mention-desc">Podcast</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=0ozxH0QIoCI" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Podcast</div>
+          <div class="lp-mention-name">ArcPoint Forensics</div>
+          <div class="lp-mention-desc">Podcast</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=70pmJhTnONg&t=3947s" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Conference</div>
+          <div class="lp-mention-name">InfoConf</div>
+          <div class="lp-mention-desc">2022</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
+        <a href="https://forensic4cast.com/forensic-4cast-awards/2022-awards/" class="lp-mention-card" target="_blank" rel="noopener">
+          <div class="lp-mention-category">Award</div>
+          <div class="lp-mention-name">Forensic 4:cast Awards</div>
+          <div class="lp-mention-desc">2022</div>
+          <div class="lp-mention-ext"><i class="ti ti-external-link"></i>View</div>
+        </a>
       </div>
     </div>
 
