@@ -994,10 +994,10 @@
     </div>
   </div>
   <div class="lp-hero-bar">
-      <div><div class="lp-stat-num">5</div><div class="lp-stat-lbl">Forensics Tools</div></div>
+      <div><div class="lp-stat-num" id="hero-stat-downloads">—</div><div class="lp-stat-lbl">Total Downloads</div></div>
+      <div><div class="lp-stat-num" id="hero-stat-contributors">—</div><div class="lp-stat-lbl">Contributors</div></div>
+      <div><div class="lp-stat-num" id="hero-stat-stars">—</div><div class="lp-stat-lbl">GitHub Stars</div></div>
       <div><div class="lp-stat-num">500+</div><div class="lp-stat-lbl">Parsers</div></div>
-      <div><div class="lp-stat-num">100%</div><div class="lp-stat-lbl">Free Tools</div></div>
-      <div><div class="lp-stat-num">Multi</div><div class="lp-stat-lbl">Platform</div></div>
     </div>
   </section>
 
@@ -1651,6 +1651,67 @@
       }
       apply(t);
       btn.addEventListener('click',function(){t=t==='dark'?'light':'dark';localStorage.setItem('lp-theme',t);apply(t);});
+    })();
+  </script>
+
+  <script>
+    (function(){
+      const API = 'https://leapps-api.4n6-198.workers.dev';
+      const repos = [
+        { repo: 'abrignoni/iLEAPP',         openSource: true  },
+        { repo: 'abrignoni/ALEAPP',         openSource: true  },
+        { repo: 'abrignoni/RLEAPP',         openSource: true  },
+        { repo: 'abrignoni/VLEAPP',         openSource: true  },
+        { repo: 'leapps-org/LAVA-releases', openSource: false },
+      ];
+      function fmt(n) {
+        if (n >= 1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'') + 'M';
+        if (n >= 1000) return (n/1000).toFixed(1).replace(/\.0$/,'') + 'k';
+        return n.toLocaleString();
+      }
+      async function loadHeroStats() {
+        try {
+          const [releaseResults, contribLogins] = await Promise.all([
+            Promise.all(repos.map(async t => {
+              const res = await fetch(`${API}/repos/${t.repo}/releases?per_page=100`);
+              const releases = res.ok ? await res.json().catch(() => []) : [];
+              const downloads = Array.isArray(releases) ? releases.reduce((sum, r) =>
+                sum + (r.assets||[]).reduce((s, a) => s + (a.download_count||0), 0), 0) : 0;
+              return downloads;
+            })),
+            (async () => {
+              const logins = new Set();
+              await Promise.all(repos.filter(t => t.openSource).map(async t => {
+                for (let p = 1; p <= 3; p++) {
+                  const res = await fetch(`${API}/repos/${t.repo}/contributors?per_page=100&page=${p}`);
+                  if (!res.ok) break;
+                  const data = await res.json().catch(() => []);
+                  if (!Array.isArray(data) || data.length === 0) break;
+                  data.filter(c => c.type !== 'Bot' && !c.login.toLowerCase().includes('bot') && c.login !== 'actions-user')
+                      .forEach(c => logins.add(c.login));
+                }
+              }));
+              return logins;
+            })(),
+          ]);
+
+          const totDl = releaseResults.reduce((s, d) => s + d, 0);
+
+          const starResults = await Promise.all(repos.map(async t => {
+            const res = await fetch(`${API}/repos/${t.repo}`);
+            const repo = res.ok ? await res.json().catch(() => ({})) : {};
+            return repo.stargazers_count || 0;
+          }));
+          const totStars = starResults.reduce((s, n) => s + n, 0);
+
+          document.getElementById('hero-stat-downloads').textContent = fmt(totDl);
+          document.getElementById('hero-stat-contributors').textContent = fmt(contribLogins.size);
+          document.getElementById('hero-stat-stars').textContent = fmt(totStars);
+        } catch(e) {
+          // silently leave dashes if fetch fails
+        }
+      }
+      loadHeroStats();
     })();
   </script>
 
