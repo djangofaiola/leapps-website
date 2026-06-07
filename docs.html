@@ -395,6 +395,7 @@
       <div class="lp-step-body">
         <div class="lp-step-title">Install &amp; Run</div>
         <p class="lp-step-desc">LEAPPs tools run on Python 3.8+. Download the latest release, install dependencies, and run against your extraction folder.</p>
+        <p style="font-size:.85rem;margin-bottom:1rem;padding:.6rem .9rem;background:var(--surface2);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;">💡 <strong>Prefer not to run Python scripts directly?</strong> The <a href="https://leapps.org/releases" style="color:var(--gold);text-decoration:none;">Releases page</a> provides pre-built executables — no Python installation required.</p>
 
         <div class="lp-tabs" id="run-tabs">
           <div class="lp-tab active" data-tab="gui">GUI</div>
@@ -413,7 +414,7 @@
           <div class="lp-code-label">Install dependencies</div>
           <div class="lp-code"><span class="kw">pip</span> install -r requirements.txt</div>
           <div class="lp-code-label">Run from the command line</div>
-          <div class="lp-code"><span class="kw">python</span> iLEAPPGUI.py <span class="kw">-t</span> <span class="st">fs</span> <span class="kw">-i</span> <span class="st">/path/to/extraction</span> <span class="kw">-o</span> <span class="st">/path/to/output</span></div>
+          <div class="lp-code"><span class="kw">python</span> iLEAPP.py <span class="kw">-t</span> <span class="st">fs</span> <span class="kw">-i</span> <span class="st">/path/to/extraction</span> <span class="kw">-o</span> <span class="st">/path/to/output</span></div>
           <div class="lp-code-label">General options</div>
           <div class="lp-code"><span class="kw">-h</span>, <span class="kw">--help</span>                        <span class="cm"># show help message and exit</span>
 <span class="kw">-t</span> <span class="st">{fs,tar,zip,gz}</span>                 <span class="cm"># input type: 'fs' for a folder of extracted files,</span>
