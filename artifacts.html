@@ -201,6 +201,16 @@
     [data-theme="light"] .lp-mobile-menu { background: rgba(245,242,236,.98); }
     .lp-theme-toggle { background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .2s, border-color .2s; font-size: 1rem; flex-shrink: 0; }
     .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  
+    .lp-mobile-search { padding: .5rem 0 .75rem; border-bottom: 1px solid var(--border); margin-bottom: .25rem; position: relative; }
+    .lp-mobile-search-input { width: 100%; font-family: var(--font-mono); font-size: .8rem; letter-spacing: .04em; background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: .5rem .75rem .5rem 2.25rem; outline: none; transition: border-color .2s; }
+    .lp-mobile-search-input:focus { border-color: var(--gold); }
+    .lp-mobile-search-icon { position: absolute; left: .6rem; top: 1.1rem; color: var(--muted); pointer-events: none; }
+    .lp-mobile-search-results { display: none; margin-top: .5rem; background: var(--surface); border: 1px solid var(--border); max-height: 280px; overflow-y: auto; }
+    .lp-mobile-search-results .lp-search-group { padding: .3rem .75rem; color: var(--muted); font-family: var(--font-mono); font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; border-bottom: 1px solid var(--border); background: var(--off-black); }
+    .lp-mobile-search-results .lp-search-item { display: flex; align-items: center; justify-content: space-between; padding: .5rem .75rem; color: var(--text); text-decoration: none; font-size: .78rem; border-bottom: 1px solid rgba(44,44,44,.5); transition: background .15s; }
+    .lp-mobile-search-results .lp-search-item:last-child { border-bottom: none; }
+    .lp-mobile-search-results .lp-search-item:hover { background: rgba(245,192,32,.06); color: var(--gold); }
   </style>
   <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('lp-theme') || 'dark');</script>
 </head>
@@ -245,6 +255,12 @@
   </nav>
 
   <div class="lp-mobile-menu" id="lp-mobile-menu">
+    <div class="lp-mobile-search">
+      <svg class="lp-mobile-search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="lp-mobile-search-input" id="lp-mobile-search-input" type="text" placeholder="Search artifacts, posts…" autocomplete="off" />
+      <div class="lp-mobile-search-results" id="lp-mobile-search-results"></div>
+    </div>
+
     <a href="https://leapps.org#tools" onclick="closeMobileMenu()">Tools</a>
     <a href="https://leapps.org#lava" onclick="closeMobileMenu()">LAVA</a>
     <a href="https://leapps.org/releases" onclick="closeMobileMenu()">Releases</a>
@@ -739,6 +755,48 @@
       });
       btn.addEventListener('mouseover', function() { btn.style.background='#D4A010'; });
       btn.addEventListener('mouseout', function() { btn.style.background='#F5C020'; });
+    })();
+  </script>
+  <script>
+    // Mobile search
+    (function() {
+      const input = document.getElementById('lp-mobile-search-input');
+      const results = document.getElementById('lp-mobile-search-results');
+      if (!input) return;
+      let debounce;
+      input.addEventListener('input', () => {
+        clearTimeout(debounce);
+        debounce = setTimeout(async () => {
+          const data = await getData();
+          if (data) renderMobileResults(input.value, data);
+        }, 200);
+      });
+      function renderMobileResults(query, data) {
+        const q = query.toLowerCase().trim();
+        if (!q) { results.style.display = 'none'; return; }
+        const posts = data.posts.filter(p => p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q)).slice(0, 3);
+        const arts = data.artifacts.filter(a => a.name.toLowerCase().includes(q)).slice(0, 4);
+        const pages = (data.pages||[]).filter(p => p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q)).slice(0, 3);
+        if (!posts.length && !arts.length && !pages.length) {
+          results.innerHTML = '<div class="lp-search-empty" style="padding:.75rem;color:var(--muted);font-family:var(--font-mono);font-size:.75rem;text-align:center;">No results found.</div>';
+          results.style.display = 'block'; return;
+        }
+        let html = '';
+        if (posts.length) {
+          html += '<div class="lp-search-group">Blog Posts</div>';
+          posts.forEach(p => { html += `<a class="lp-search-item" href="https://leapps.org/blog-post?post=${encodeURIComponent(p.slug)}">${p.title}</a>`; });
+        }
+        if (arts.length) {
+          html += '<div class="lp-search-group">Artifacts</div>';
+          arts.forEach(a => { html += `<a class="lp-search-item" href="${a.url}">${a.name}<span class="lp-search-badge" style="font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-left:.5rem;">${a.tool}</span></a>`; });
+        }
+        if (pages.length) {
+          html += '<div class="lp-search-group">Pages</div>';
+          pages.forEach(p => { html += `<a class="lp-search-item" href="${p.url}">${p.title}<span class="lp-search-badge" style="font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-left:.5rem;">${p.page}</span></a>`; });
+        }
+        results.innerHTML = html;
+        results.style.display = 'block';
+      }
     })();
   </script>
 </body>
