@@ -117,7 +117,7 @@ function handleSearchIndex() {
   const index = [
     { title: "Quick Start — Pick Your Tool", url: "https://leapps.org/docs#step-1", page: "Docs", excerpt: "Choose iLEAPP for iOS, ALEAPP for Android, RLEAPP for ISP and carrier returns, or VLEAPP for vehicle systems." },
     { title: "Quick Start — Get Your Extraction", url: "https://leapps.org/docs#step-2", page: "Docs", excerpt: "Supported extraction types: full file system, iTunes backup, adb, GrayKey, Cellebrite, logical acquisitions." },
-    { title: "Quick Start — Install & Run", url: "https://leapps.org/docs#step-3", page: "Docs", excerpt: "Install dependencies with pip, then run via GUI or command line. Requires Python 3.8 or later." },
+    { title: "Quick Start — Install & Run", url: "https://leapps.org/docs#step-3", page: "Docs", excerpt: "Install dependencies with pip, then run via GUI or command line. Requires Python 3.12 or later." },
     { title: "Quick Start — Read Your Report", url: "https://leapps.org/docs#step-4", page: "Docs", excerpt: "Open index.html in your output folder or load the report into LAVA for filtering and data export." },
     { title: "Quick Start — Contribute a Parser", url: "https://leapps.org/docs#step-5", page: "Docs", excerpt: "Add a new Python file to scripts/artifacts/ and submit a pull request on GitHub." },
     { title: "iLEAPP — iOS Logs Events and Plists Parser", url: "https://leapps.org/releases", page: "Releases", excerpt: "Parse iOS and iPadOS artifacts from iTunes backups and full file system extractions." },
@@ -137,7 +137,7 @@ function handleSearchIndex() {
     { title: "Blog — Forensics Deep Dives", url: "https://leapps.org/blog", page: "Blog", excerpt: "Artifact write-ups, tool updates, and community contributions from the LEAPPs project." },
     { title: "Community — Discord and RSS", url: "https://discord.gg/XaZaknENUR", page: "Community", excerpt: "Join the LEAPPs community on Discord. Subscribe to the RSS feed for blog posts and changelog updates." },
     { title: "Principles — Always Free, Open Source, Community First", url: "https://leapps.org/about#philosophy", page: "About", excerpt: "LEAPPs is always free, source code is public and auditable, built by practitioners for practitioners." },
-    { title: "Python Installation — Requirements", url: "https://leapps.org/docs#step-3", page: "Docs", excerpt: "Requires Python 3.8 or later. Install dependencies: pip install -r requirements.txt" },
+    { title: "Python Installation — Requirements", url: "https://leapps.org/docs#step-3", page: "Docs", excerpt: "Requires Python 3.12 or later. Install dependencies: pip install -r requirements.txt" },
     { title: "Command Line Usage", url: "https://leapps.org/docs#step-3", page: "Docs", excerpt: "Run from command line: python iLEAPP.py -t {fs,tar,zip,gz} -i INPUT_PATH -o OUTPUT_PATH. Each tool may have additional options." }
   ];
   return corsResponse(JSON.stringify(index), 200, { 'Cache-Control': 'public, max-age=3600' });
