@@ -259,7 +259,7 @@
       </li>
       <li><a href="https://leapps.org/blog">Blog</a></li>
       <li><a href="https://leapps.org/about">About</a></li>
-      <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener noreferrer">GitHub</a></li>
     </ul>
     <a href="https://leapps.org/releases" class="lp-nav-cta">Download</a>
     <button class="lp-theme-toggle" id="lp-theme-toggle" aria-label="Toggle theme"><i class="ti ti-sun" id="lp-theme-icon" aria-hidden="true"></i></button>
@@ -290,7 +290,7 @@
     <a href="https://leapps.org/resources" onclick="closeMobileMenu()">Resources</a>
     <a href="https://leapps.org/blog" onclick="closeMobileMenu()">Blog</a>
     <a href="https://leapps.org/about" onclick="closeMobileMenu()">About</a>
-    <a href="https://github.com/abrignoni" target="_blank" rel="noopener" onclick="closeMobileMenu()">GitHub</a>
+    <a href="https://github.com/abrignoni" target="_blank" rel="noopener noreferrer" onclick="closeMobileMenu()">GitHub</a>
   </div>
 
   <header class="lp-header">
@@ -389,13 +389,13 @@
       <a href="https://leapps.org/about">About</a>
     </div>
     <div class="lp-footer-links" style="margin-top:.75rem;">
-      <a href="https://github.com/abrignoni" target="_blank" rel="noopener" aria-label="GitHub"><i class="ti ti-brand-github"></i> GitHub</a>
-      <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener" aria-label="Discord"><i class="ti ti-brand-discord"></i> Discord</a>
-      <a href="https://www.linkedin.com/company/leapps/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ti ti-brand-linkedin"></i> LinkedIn</a>
-      <a href="https://www.youtube.com/@AlexisBrignoni" target="_blank" rel="noopener" aria-label="YouTube"><i class="ti ti-brand-youtube"></i> YouTube</a>
-      <a href="https://leapps-api.4n6-198.workers.dev/blog/feed" target="_blank" rel="noopener" aria-label="RSS Feed"><i class="ti ti-rss"></i> RSS</a>
+      <a href="https://github.com/abrignoni" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="ti ti-brand-github"></i> GitHub</a>
+      <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="ti ti-brand-discord"></i> Discord</a>
+      <a href="https://www.linkedin.com/company/leapps/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="ti ti-brand-linkedin"></i> LinkedIn</a>
+      <a href="https://www.youtube.com/@AlexisBrignoni" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="ti ti-brand-youtube"></i> YouTube</a>
+      <a href="https://leapps-api.4n6-198.workers.dev/blog/feed" target="_blank" rel="noopener noreferrer" aria-label="RSS Feed"><i class="ti ti-rss"></i> RSS</a>
     </div>
-    <div style="margin-top:1.25rem;font-family:var(--font-mono);font-size:.72rem;color:#444;letter-spacing:.08em;">🌐 <a href="https://translate.google.com/translate?u=https://leapps.org" target="_blank" rel="noopener" style="color:#444;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#444'">TRANSLATE THIS PAGE</a></div>
+    <div style="margin-top:1.25rem;font-family:var(--font-mono);font-size:.72rem;color:#444;letter-spacing:.08em;">🌐 <a href="https://translate.google.com/translate?u=https://leapps.org" target="_blank" rel="noopener noreferrer" style="color:#444;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#444'">TRANSLATE THIS PAGE</a></div>
   </footer>
 
   <script>
@@ -567,7 +567,7 @@
 
       return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.paths.join(' ')).toLowerCase())}">
         <td>
-          <div class="lp-art-name"><a href="${ghBase}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">${escHtml(a.name)}</a></div>
+          <div class="lp-art-name"><a href="${ghBase}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">${escHtml(a.name)}</a></div>
           ${a.description ? `<div class="lp-art-desc">${escHtml(a.description)}</div>` : ''}
           ${pathsHtml}
         </td>
@@ -656,14 +656,14 @@
         errContainer.innerHTML = toolErrors.map(e =>
           `<div class="lp-tool-error"><i class="ti ti-alert-circle"></i>
            Could not load <strong>${escHtml(e.tool.name)}</strong> artifacts: ${escHtml(e.reason)}.
-           <a href="https://github.com/${escHtml(e.tool.repo)}/tree/main/${ARTIFACTS_PATH}" target="_blank" rel="noopener" style="color:var(--gold);margin-left:.5rem">View on GitHub →</a></div>`
+           <a href="https://github.com/${escHtml(e.tool.repo)}/tree/main/${ARTIFACTS_PATH}" target="_blank" rel="noopener noreferrer" style="color:var(--gold);margin-left:.5rem">View on GitHub →</a></div>`
         ).join('');
       }
 
       if (allArtifacts.length === 0) {
         document.getElementById('progress-wrap').style.display = 'none';
         document.getElementById('artifacts-tbody').innerHTML =
-          `<tr><td colspan="4" style="text-align:center;padding:3rem;font-family:var(--font-mono);font-size:.8rem;color:var(--muted)">No artifacts loaded. <a href="https://github.com/abrignoni" target="_blank" rel="noopener" style="color:var(--gold)">View on GitHub →</a></td></tr>`;
+          `<tr><td colspan="4" style="text-align:center;padding:3rem;font-family:var(--font-mono);font-size:.8rem;color:var(--muted)">No artifacts loaded. <a href="https://github.com/abrignoni" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">View on GitHub →</a></td></tr>`;
         return;
       }
 
