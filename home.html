@@ -349,6 +349,22 @@
       gap: .35rem;
     }
     .lp-tool-link:hover { border-color: var(--gold) !important; color: var(--gold) !important; }
+    .lp-tool-card-ileapp { border-left: 2px solid #E30613; }
+    .lp-tool-card-ileapp .lp-tool-tag,
+    .lp-tool-card-ileapp .lp-tool-name { color: #E30613; }
+    .lp-tool-card-ileapp .lp-tool-link { border-color: rgba(227,6,19,.3) !important; color: #E30613 !important; }
+    .lp-tool-card-aleapp { border-left: 2px solid #A4C639; }
+    .lp-tool-card-aleapp .lp-tool-tag,
+    .lp-tool-card-aleapp .lp-tool-name { color: #A4C639; }
+    .lp-tool-card-aleapp .lp-tool-link { border-color: rgba(164,198,57,.3) !important; color: #A4C639 !important; }
+    .lp-tool-card-rleapp { border-left: 2px solid #4BA3C7; }
+    .lp-tool-card-rleapp .lp-tool-tag,
+    .lp-tool-card-rleapp .lp-tool-name { color: #4BA3C7; }
+    .lp-tool-card-rleapp .lp-tool-link { border-color: rgba(75,163,199,.3) !important; color: #4BA3C7 !important; }
+    .lp-tool-card-vleapp { border-left: 2px solid #531dab; }
+    .lp-tool-card-vleapp .lp-tool-tag,
+    .lp-tool-card-vleapp .lp-tool-name { color: #531dab; }
+    .lp-tool-card-vleapp .lp-tool-link { border-color: rgba(83,29,171,.3) !important; color: #531dab !important; }
     .lp-tool-card-lava { border-left: 2px solid var(--gold); }
     .lp-tool-card-lava .lp-tool-tag,
     .lp-tool-card-lava .lp-tool-name { color: var(--gold); }
@@ -511,6 +527,10 @@
     .lp-dl-btn:hover { border-color: var(--gold) !important; color: var(--gold) !important; }
     .lp-dl-side { display: grid; gap: .75rem; min-width: 160px; }
     .lp-dl-side .lp-dl-btn { justify-content: center; }
+    .lp-dl-btn-ileapp { border-color: rgba(227,6,19,.4) !important; color: #E30613 !important; }
+    .lp-dl-btn-aleapp { border-color: rgba(164,198,57,.4) !important; color: #A4C639 !important; }
+    .lp-dl-btn-rleapp { border-color: rgba(75,163,199,.4) !important; color: #4BA3C7 !important; }
+    .lp-dl-btn-vleapp { border-color: rgba(83,29,171,.4) !important; color: #531dab !important; }
     .lp-dl-btn-lava {
       border-color: rgba(245,192,32,.4) !important;
       color: var(--gold) !important;
@@ -1119,7 +1139,7 @@
     <span class="lp-section-label">The Suite</span>
     <h2 class="lp-section-title">Five Tools.<br>Every Platform.</h2>
     <div class="lp-tools-grid">
-      <div class="lp-tool-card">
+      <div class="lp-tool-card lp-tool-card-ileapp">
         <div class="lp-tool-tag">iOS · iPadOS</div>
         <div class="lp-tool-name"><img src="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/f0d23154-ad39-40d4-b08d-3d1d3641d220/iLEAPP_icon_1024.png?content-type=image%2Fpng" alt="iLEAPP logo" class="lp-tool-logo">iLEAPP</div>
         <div class="lp-tool-full">iOS Logs, Events and Plists Parser</div>
@@ -1129,7 +1149,7 @@
           <a href="https://leapps.org/releases" class="lp-tool-link"><i class="ti ti-download"></i>Download</a>
         </div>
       </div>
-      <div class="lp-tool-card">
+      <div class="lp-tool-card lp-tool-card-aleapp">
         <div class="lp-tool-tag">Android</div>
         <div class="lp-tool-name"><img src="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/f4ae4783-bf67-43af-b20f-8f61fc7d66d1/ALEAPP_icon_1024.png?content-type=image%2Fpng" alt="ALEAPP logo" class="lp-tool-logo">ALEAPP</div>
         <div class="lp-tool-full">Android Logs, Events and Plists Parser</div>
@@ -1139,7 +1159,7 @@
           <a href="https://leapps.org/releases" class="lp-tool-link"><i class="ti ti-download"></i>Download</a>
         </div>
       </div>
-      <div class="lp-tool-card">
+      <div class="lp-tool-card lp-tool-card-rleapp">
         <div class="lp-tool-tag">ISP Returns</div>
         <div class="lp-tool-name"><img src="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/cde58999-6e46-4ffe-bfc3-68bda6e732bf/RLEAPP_icon_1024.png?content-type=image%2Fpng" alt="RLEAPP logo" class="lp-tool-logo">RLEAPP</div>
         <div class="lp-tool-full">Returns, Logs, Events and Properties Parser</div>
@@ -1149,7 +1169,7 @@
           <a href="https://leapps.org/releases" class="lp-tool-link"><i class="ti ti-download"></i>Download</a>
         </div>
       </div>
-      <div class="lp-tool-card">
+      <div class="lp-tool-card lp-tool-card-vleapp">
         <div class="lp-tool-tag">Vehicle Systems</div>
         <div class="lp-tool-name"><img src="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/ecef08fb-97e0-4790-9cf5-a68eef0863f2/VLEAPP_icon_1024.png?content-type=image%2Fpng" alt="VLEAPP logo" class="lp-tool-logo">VLEAPP</div>
         <div class="lp-tool-full">Vehicle Logs, Events and Plists Parser</div>
@@ -1236,10 +1256,10 @@
         </div>
       </div>
       <div class="lp-dl-side">
-        <a href="https://github.com/abrignoni/iLEAPP" class="lp-dl-btn" target="_blank" rel="noopener">iLEAPP ↗</a>
-        <a href="https://github.com/abrignoni/ALEAPP" class="lp-dl-btn" target="_blank" rel="noopener">ALEAPP ↗</a>
-        <a href="https://github.com/abrignoni/RLEAPP" class="lp-dl-btn" target="_blank" rel="noopener">RLEAPP ↗</a>
-        <a href="https://github.com/abrignoni/VLEAPP" class="lp-dl-btn" target="_blank" rel="noopener">VLEAPP ↗</a>
+        <a href="https://github.com/abrignoni/iLEAPP" class="lp-dl-btn lp-dl-btn-ileapp" target="_blank" rel="noopener">iLEAPP ↗</a>
+        <a href="https://github.com/abrignoni/ALEAPP" class="lp-dl-btn lp-dl-btn-aleapp" target="_blank" rel="noopener">ALEAPP ↗</a>
+        <a href="https://github.com/abrignoni/RLEAPP" class="lp-dl-btn lp-dl-btn-rleapp" target="_blank" rel="noopener">RLEAPP ↗</a>
+        <a href="https://github.com/abrignoni/VLEAPP" class="lp-dl-btn lp-dl-btn-vleapp" target="_blank" rel="noopener">VLEAPP ↗</a>
         <a href="https://leapps.org/releases" class="lp-dl-btn lp-dl-btn-lava">LAVA ↗</a>
       </div>
     </div>
