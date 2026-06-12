@@ -50,6 +50,11 @@ export default {
       return handleBlogRequest(url, env);
     }
 
+    // Daily downloads route: /downloads/daily
+    if (url.pathname === '/downloads/daily') {
+      return handleDownloadsDaily(env);
+    }
+
     // Parse the path — expected format: /repos/{owner}/{repo}/...
     const path = url.pathname + url.search;
 
@@ -334,6 +339,53 @@ async function handleChangelogFeed(env) {
   });
   await cache.put(cacheKey, responseToCache.clone());
   return responseToCache;
+}
+
+async function handleDownloadsDaily(env) {
+  const rawUrl = `https://raw.githubusercontent.com/abrignoni/leapps-website/main/data/downloads.json`;
+  const cacheKey = 'downloads-daily';
+
+  try {
+    const cached = await env.CACHE?.get(cacheKey);
+    if (cached) return corsResponse(cached, 200, { 'Cache-Control': 'public, max-age=3600' });
+  } catch (_) {}
+
+  try {
+    const res = await fetch(rawUrl);
+    if (!res.ok) return corsResponse(JSON.stringify({ error: 'Could not load snapshot data' }), 502);
+
+    const data = await res.json();
+    const snapshots = data.snapshots || [];
+
+    if (snapshots.length < 2) {
+      const result = JSON.stringify({ available: false, reason: 'Not enough snapshots yet' });
+      return corsResponse(result, 200, { 'Cache-Control': 'public, max-age=3600' });
+    }
+
+    const today = snapshots[snapshots.length - 1];
+    const yesterday = snapshots[snapshots.length - 2];
+
+    const daily = {};
+    let totalDaily = 0;
+    for (const key of Object.keys(today.totals)) {
+      const delta = Math.max(0, (today.totals[key] || 0) - (yesterday.totals[key] || 0));
+      daily[key] = delta;
+      totalDaily += delta;
+    }
+
+    const result = JSON.stringify({
+      available: true,
+      date: today.date,
+      daily,
+      totalDaily,
+      totals: today.totals,
+    });
+
+    try { await env.CACHE?.put(cacheKey, result, { expirationTtl: 3600 }); } catch (_) {}
+    return corsResponse(result, 200, { 'Cache-Control': 'public, max-age=3600' });
+  } catch (e) {
+    return corsResponse(JSON.stringify({ error: 'Failed to compute daily downloads' }), 500);
+  }
 }
 
 function corsResponse(body, status = 200, extraHeaders = {}) {
