@@ -117,6 +117,29 @@
     .lp-chart-legend-item { display: flex; align-items: center; gap: .35rem; font-size: .75rem; color: var(--muted); }
     .lp-chart-legend-swatch { width: 10px; height: 10px; border-radius: 2px; }
 
+    /* DOWNLOAD HISTORY */
+    .lp-dl-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 1.5rem; }
+    .lp-dl-summary-cell { background: var(--off-black); padding: 1.25rem 1rem; transition: background .2s; }
+    .lp-dl-summary-cell:hover { background: var(--surface); }
+    .lp-dl-summary-num { font-family: var(--font-head); font-size: 2rem; font-weight: 900; color: var(--text); line-height: 1; margin-bottom: .35rem; }
+    .lp-dl-summary-lbl { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .lp-dl-tool-rows { border: 1px solid var(--border); margin-bottom: 1.5rem; }
+    .lp-dl-tool-row { display: flex; align-items: center; gap: 1rem; padding: .85rem 1rem; border-bottom: 1px solid var(--surface); }
+    .lp-dl-tool-row:last-child { border-bottom: none; }
+    .lp-dl-tool-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .lp-dl-tool-name { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; color: var(--muted); width: 64px; flex-shrink: 0; }
+    .lp-dl-bar-wrap { flex: 1; height: 4px; background: var(--border); }
+    .lp-dl-bar { height: 4px; transition: width .6s ease; }
+    .lp-dl-count { font-family: var(--font-mono); font-size: .75rem; color: var(--text); text-align: right; min-width: 64px; }
+    .lp-dl-daily { font-family: var(--font-mono); font-size: .6rem; text-align: right; min-width: 72px; }
+    .lp-dl-chart-card { border: 1px solid var(--border); padding: 1.5rem; }
+    .lp-dl-chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+    .lp-dl-chart-title { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .lp-dl-toggle { display: flex; }
+    .lp-dl-toggle button { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .08em; padding: .2rem .65rem; border: 1px solid var(--border); color: var(--muted); background: none; cursor: pointer; transition: color .2s, border-color .2s; }
+    .lp-dl-toggle button.active { color: var(--gold); border-color: rgba(245,192,32,.4); }
+    .lp-dl-pending { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); padding: 2rem; text-align: center; border: 1px solid var(--border); }
+
     /* TABLE */
     .lp-table { width: 100%; border-collapse: collapse; }
     .lp-table th { text-align: left; font-family: var(--font-mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: .6rem 1rem; border-bottom: 1px solid var(--border); font-weight: 400; }
@@ -347,6 +370,15 @@
             <canvas id="starChart" role="img" aria-label="Bar chart showing stars per tool"></canvas>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- DOWNLOAD HISTORY -->
+    <div class="lp-section" id="dl-history-section">
+      <span class="lp-section-label">Download tracking</span>
+      <h2 class="lp-section-title">Download History</h2>
+      <div id="dl-history-content">
+        <div class="lp-dl-pending">Loading download history…</div>
       </div>
     </div>
 
@@ -586,6 +618,130 @@
     }
 
     fetchStats();
+
+    // Download history section
+    const TOOL_COLORS = { ileapp: '#E30613', aleapp: '#A4C639', rleapp: '#4BA3C7', vleapp: '#531dab', lava: '#F5C020' };
+    const TOOL_LABELS = { ileapp: 'iLEAPP', aleapp: 'ALEAPP', rleapp: 'RLEAPP', vleapp: 'VLEAPP', lava: 'LAVA' };
+    let dlHistoryChart = null;
+    let dlSnapshots = [];
+
+    function renderDlHistory(days) {
+      const container = document.getElementById('dl-history-content');
+      if (dlSnapshots.length < 2) {
+        container.innerHTML = '<div class="lp-dl-pending">Daily delta available after two consecutive snapshots. Check back tomorrow.</div>';
+        return;
+      }
+
+      const latest = dlSnapshots[dlSnapshots.length - 1];
+      const prev = dlSnapshots[dlSnapshots.length - 2];
+      const tools = Object.keys(TOOL_LABELS);
+
+      const todayDelta = tools.reduce((s, k) => s + Math.max(0, (latest.totals[k]||0) - (prev.totals[k]||0)), 0);
+      const total = tools.reduce((s, k) => s + (latest.totals[k]||0), 0);
+
+      const slice = dlSnapshots.slice(-(days + 1));
+      const deltas = slice.slice(1).map((s, i) => ({
+        date: s.date,
+        total: tools.reduce((sum, k) => sum + Math.max(0, (s.totals[k]||0) - (slice[i].totals[k]||0)), 0)
+      }));
+
+      const last7 = dlSnapshots.length >= 8 ? dlSnapshots.slice(-8) : dlSnapshots;
+      const sum7 = last7.slice(1).reduce((s, snap, i) => s + tools.reduce((ts, k) => ts + Math.max(0, (snap.totals[k]||0) - (last7[i].totals[k]||0)), 0), 0);
+      const last30 = dlSnapshots.length >= 31 ? dlSnapshots.slice(-31) : dlSnapshots;
+      const sum30 = last30.slice(1).reduce((s, snap, i) => s + tools.reduce((ts, k) => ts + Math.max(0, (snap.totals[k]||0) - (last30[i].totals[k]||0)), 0), 0);
+
+      const maxTotal = Math.max(...tools.map(k => latest.totals[k]||0));
+
+      container.innerHTML = `
+        <div class="lp-dl-summary">
+          <div class="lp-dl-summary-cell">
+            <div class="lp-dl-summary-num" style="color:var(--gold)">${fmt(total)}</div>
+            <div class="lp-dl-summary-lbl">All time</div>
+          </div>
+          <div class="lp-dl-summary-cell">
+            <div class="lp-dl-summary-num" style="color:#A4C639">${todayDelta > 0 ? '+' + fmt(todayDelta) : '—'}</div>
+            <div class="lp-dl-summary-lbl">Today</div>
+          </div>
+          <div class="lp-dl-summary-cell">
+            <div class="lp-dl-summary-num">${dlSnapshots.length >= 8 ? fmt(sum7) : '—'}</div>
+            <div class="lp-dl-summary-lbl">Last 7 days</div>
+          </div>
+          <div class="lp-dl-summary-cell">
+            <div class="lp-dl-summary-num">${dlSnapshots.length >= 31 ? fmt(sum30) : '—'}</div>
+            <div class="lp-dl-summary-lbl">Last 30 days</div>
+          </div>
+        </div>
+        <div class="lp-dl-tool-rows">
+          ${tools.map(k => {
+            const count = latest.totals[k] || 0;
+            const delta = prev ? Math.max(0, count - (prev.totals[k]||0)) : 0;
+            const pct = maxTotal > 0 ? Math.round(count / maxTotal * 100) : 0;
+            return `<div class="lp-dl-tool-row">
+              <div class="lp-dl-tool-dot" style="background:${TOOL_COLORS[k]}"></div>
+              <div class="lp-dl-tool-name">${TOOL_LABELS[k]}</div>
+              <div class="lp-dl-bar-wrap"><div class="lp-dl-bar" style="width:${pct}%;background:${TOOL_COLORS[k]}"></div></div>
+              <div class="lp-dl-count">${fmt(count)}</div>
+              <div class="lp-dl-daily" style="color:${TOOL_COLORS[k]}">${delta > 0 ? '+' + fmt(delta) + ' today' : ''}</div>
+            </div>`;
+          }).join('')}
+        </div>
+        <div class="lp-dl-chart-card">
+          <div class="lp-dl-chart-header">
+            <div class="lp-dl-chart-title">Daily downloads</div>
+            <div class="lp-dl-toggle">
+              <button id="dl-btn-7" class="${days===7?'active':''}" onclick="switchDlChart(7)">7d</button>
+              <button id="dl-btn-30" class="${days===30?'active':''}" onclick="switchDlChart(30)">30d</button>
+              <button id="dl-btn-90" class="${days===90?'active':''}" onclick="switchDlChart(90)">90d</button>
+            </div>
+          </div>
+          <div style="position:relative;height:180px"><canvas id="dlHistoryChart" role="img" aria-label="Daily download history chart"></canvas></div>
+        </div>`;
+
+      if (dlHistoryChart) { dlHistoryChart.destroy(); dlHistoryChart = null; }
+
+      const c = getChartColors();
+      dlHistoryChart = new Chart(document.getElementById('dlHistoryChart'), {
+        type: 'bar',
+        data: {
+          labels: deltas.map(d => { const dt = new Date(d.date + 'T00:00:00Z'); return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }); }),
+          datasets: [{ data: deltas.map(d => d.total), backgroundColor: deltas.map((_, i) => i === deltas.length - 1 ? '#F5C020' : 'rgba(245,192,32,.35)'), borderRadius: 3 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: c.tick, font: { size: 10 }, maxRotation: 0 } },
+            y: { grid: { color: c.grid }, ticks: { color: c.tick, font: { size: 10 }, callback: v => fmt(v) } }
+          }
+        }
+      });
+    }
+
+    function switchDlChart(days) {
+      renderDlHistory(days);
+    }
+
+    async function fetchDlHistory() {
+      try {
+        const res = await fetch('https://leapps-api.4n6-198.workers.dev/downloads/daily');
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        if (!data.available) {
+          document.getElementById('dl-history-content').innerHTML =
+            '<div class="lp-dl-pending">Daily delta available after two consecutive snapshots. Check back tomorrow.</div>';
+          return;
+        }
+        const snapshotRes = await fetch('https://raw.githubusercontent.com/abrignoni/leapps-website/main/data/downloads.json');
+        const snapshotData = await snapshotRes.json();
+        dlSnapshots = snapshotData.snapshots || [];
+        renderDlHistory(7);
+      } catch(e) {
+        document.getElementById('dl-history-content').innerHTML =
+          '<div class="lp-dl-pending">Could not load download history.</div>';
+      }
+    }
+
+    fetchDlHistory();
 
     // Mobile menu
     const hamburger = document.getElementById('lp-hamburger');
