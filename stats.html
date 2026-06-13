@@ -704,7 +704,7 @@
         type: 'bar',
         data: {
           labels: deltas.map(d => { const dt = new Date(d.date + 'T00:00:00Z'); return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }); }),
-          datasets: [{ data: deltas.map(d => d.total), backgroundColor: deltas.map((_, i) => i === deltas.length - 1 ? '#F5C020' : 'rgba(245,192,32,.35)'), borderRadius: 3 }]
+          datasets: [{ data: deltas.map(d => d.total), backgroundColor: deltas.map((_, i) => i === deltas.length - 1 ? '#F5C020' : 'rgba(245,192,32,.35)'), borderRadius: 3, maxBarThickness: 40 }]
         },
         options: {
           responsive: true, maintainAspectRatio: false,
