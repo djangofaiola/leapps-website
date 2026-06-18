@@ -279,6 +279,134 @@
     }
     .back-link:hover { color: var(--gold); }
 
+    /* Share row */
+    .post-share {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+    .post-share-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: .25rem;
+    }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .04em;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: .4rem .75rem;
+      text-decoration: none !important;
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+    }
+    .share-btn:hover { color: var(--gold); border-color: var(--gold); }
+    .share-btn i { font-size: .9rem; }
+
+    /* Related posts */
+    .related-posts { margin-top: 3.5rem; }
+    .related-posts-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .related-posts-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.1rem 1.25rem;
+      text-decoration: none !important;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      transition: border-color .2s;
+    }
+    .related-card:hover { border-color: var(--gold); }
+    .related-card .date {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--muted);
+      letter-spacing: .05em;
+    }
+    .related-card h3 {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.2;
+      color: var(--text);
+    }
+    .related-card p {
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Prev / next nav */
+    .post-prevnext {
+      margin-top: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .prevnext-card {
+      border: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      text-decoration: none !important;
+      transition: border-color .2s;
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+    .prevnext-card:hover { border-color: var(--gold); }
+    .prevnext-card.next { text-align: right; align-items: flex-end; }
+    .prevnext-dir {
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .prevnext-title {
+      font-family: var(--font-head);
+      font-size: .95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    @media (max-width: 600px) {
+      .post-prevnext { grid-template-columns: 1fr; }
+      .prevnext-card.next { text-align: left; align-items: flex-start; }
+    }
+
     /* Loading / error */
     .state-msg {
       text-align: center;
@@ -542,6 +670,10 @@
         const body = stripFrontmatter(raw);
         const html = marked.parse(body);
 
+        // Reading time — ~225 words/min
+        const wordCount = body.trim().split(/\s+/).filter(Boolean).length;
+        const readingMin = Math.max(1, Math.round(wordCount / 225));
+
         // Update page title & OG
         const title = meta.title || slug;
         const excerpt = meta.excerpt || '';
@@ -571,17 +703,43 @@
             <div class="post-header-meta">
               ${meta.date ? `<span class="date">${formatDate(meta.date)}</span>` : ''}
               ${meta.author ? `<span>${meta.author}</span>` : ''}
+              <span><i class="ti ti-clock" style="font-size:.8rem;vertical-align:-1px;"></i> ${readingMin} min read</span>
             </div>
             <h1>${title}</h1>
             ${tagsHtml}
           </header>
           <hr class="post-divider" />
           <article class="post-body">${html}</article>
+          <div class="post-share">
+            <span class="post-share-label">Share</span>
+            <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-linkedin"></i> LinkedIn</a>
+            <a class="share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(postUrl)}" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-x"></i> Post</a>
+            <button class="share-btn" id="copy-link-btn" type="button"><i class="ti ti-link"></i> <span>Copy link</span></button>
+          </div>
+          <div id="related-slot"></div>
+          <div id="prevnext-slot"></div>
           <nav class="post-footer-nav">
             <a href="https://leapps.org/blog" class="back-link">
               <i class="ti ti-arrow-left"></i> All Posts
             </a>
           </nav>`;
+
+        // Copy-link button
+        const copyBtn = document.getElementById('copy-link-btn');
+        if (copyBtn) {
+          copyBtn.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(postUrl);
+              const label = copyBtn.querySelector('span');
+              const prev = label.textContent;
+              label.textContent = 'Copied!';
+              setTimeout(() => { label.textContent = prev; }, 1800);
+            } catch (_) {}
+          });
+        }
+
+        // Related posts + prev/next (needs the index)
+        loadRelated(slug, meta);
       } catch (err) {
         container.innerHTML = `
           <div class="state-msg">
@@ -589,6 +747,76 @@
             Failed to load post. <a href="https://leapps.org/blog" style="color:var(--gold)">Back to Blog</a>
           </div>`;
         console.error('Post load error:', err);
+      }
+    }
+
+    function postUrlFor(slug) {
+      return `https://leapps.org/blog-post?post=${encodeURIComponent(slug)}`;
+    }
+
+    async function loadRelated(currentSlug, currentMeta) {
+      try {
+        const res = await fetch(`${WORKER}/blog/posts/index.json`);
+        if (!res.ok) return;
+        const all = await res.json();
+        if (!Array.isArray(all) || !all.length) return;
+
+        // Chronological order (newest first) for prev/next
+        const byDate = [...all].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        const idx = byDate.findIndex(p => p.slug === currentSlug);
+
+        // --- Related: share at least one tag, exclude current, top 3 ---
+        const curTags = Array.isArray(currentMeta.tags) ? currentMeta.tags : (currentMeta.tags ? [currentMeta.tags] : []);
+        const others = byDate.filter(p => p.slug !== currentSlug);
+        let related = others
+          .map(p => ({ p, shared: (p.tags || []).filter(t => curTags.includes(t)).length }))
+          .filter(x => x.shared > 0)
+          .sort((a, b) => b.shared - a.shared || (b.p.date || '').localeCompare(a.p.date || ''))
+          .map(x => x.p);
+        // Backfill with most recent if fewer than 3
+        if (related.length < 3) {
+          for (const p of others) {
+            if (related.length >= 3) break;
+            if (!related.includes(p)) related.push(p);
+          }
+        }
+        related = related.slice(0, 3);
+
+        if (related.length) {
+          document.getElementById('related-slot').innerHTML = `
+            <div class="related-posts">
+              <div class="related-posts-label">Related Posts</div>
+              <div class="related-grid">
+                ${related.map(p => `
+                  <a class="related-card" href="${postUrlFor(p.slug)}">
+                    <span class="date">${formatDate(p.date)}</span>
+                    <h3>${p.title}</h3>
+                    <p>${p.excerpt || ''}</p>
+                  </a>`).join('')}
+              </div>
+            </div>`;
+        }
+
+        // --- Prev / Next (chronological neighbors) ---
+        if (idx !== -1) {
+          const newer = idx > 0 ? byDate[idx - 1] : null;          // more recent
+          const older = idx < byDate.length - 1 ? byDate[idx + 1] : null; // older
+          if (newer || older) {
+            document.getElementById('prevnext-slot').innerHTML = `
+              <div class="post-prevnext">
+                ${older ? `<a class="prevnext-card prev" href="${postUrlFor(older.slug)}">
+                  <span class="prevnext-dir"><i class="ti ti-arrow-left"></i> Older</span>
+                  <span class="prevnext-title">${older.title}</span>
+                </a>` : '<span></span>'}
+                ${newer ? `<a class="prevnext-card next" href="${postUrlFor(newer.slug)}">
+                  <span class="prevnext-dir">Newer <i class="ti ti-arrow-right"></i></span>
+                  <span class="prevnext-title">${newer.title}</span>
+                </a>` : '<span></span>'}
+              </div>`;
+          }
+        }
+      } catch (err) {
+        console.error('Related load error:', err);
       }
     }
 
