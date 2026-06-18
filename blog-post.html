@@ -695,6 +695,33 @@
         if (meta.author) {
           document.querySelector('meta[property="article:author"]').setAttribute('content', meta.author);
         }
+
+        // BlogPosting structured data (JSON-LD) for rich results
+        const ld = {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": title,
+          "description": excerpt,
+          "image": "https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng",
+          "url": postUrl,
+          "mainEntityOfPage": { "@type": "WebPage", "@id": postUrl },
+          "author": { "@type": "Person", "name": meta.author || "LEAPPs" },
+          "publisher": {
+            "@type": "Organization",
+            "name": "LEAPPs",
+            "logo": { "@type": "ImageObject", "url": "https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/70fbe416-092d-427d-a8d0-4eedbc92df16/leapps-favicon-512.png?content-type=image%2Fpng" }
+          }
+        };
+        if (meta.date) {
+          ld.datePublished = new Date(meta.date).toISOString();
+          ld.dateModified = new Date(meta.date).toISOString();
+        }
+        if (Array.isArray(meta.tags) && meta.tags.length) ld.keywords = meta.tags.join(', ');
+        const ldScript = document.createElement('script');
+        ldScript.type = 'application/ld+json';
+        ldScript.textContent = JSON.stringify(ld);
+        document.head.appendChild(ldScript);
+
         document.getElementById('breadcrumb-title').textContent = title;
 
         const tagsHtml = meta.tags && meta.tags.length
