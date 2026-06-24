@@ -60,7 +60,7 @@
       z-index: 1000;
     }
     .lp-nav-logo { font-family: var(--font-head); font-size: 1.4rem; font-weight: 900; letter-spacing: .05em; color: var(--text); text-decoration: none; }
-    .lp-nav-links { display: flex; gap: 2rem; list-style: none; }
+    .lp-nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
     .lp-nav-links a { color: var(--muted); text-decoration: none; font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; transition: color .2s; }
     .lp-nav-links a:hover { color: var(--gold); }
     .lp-nav-links a.active { color: var(--gold); }
@@ -80,10 +80,10 @@
       transform: translateX(-50%); background: rgba(14,14,14,.98);
       backdrop-filter: blur(8px); border: 1px solid var(--border);
       min-width: 180px; z-index: 1001; flex-direction: column;
-      padding-top: 12px;
+      margin-top: 8px; border-radius: 4px; overflow: hidden;
     }
     .lp-nav-dropdown-menu::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px;
+      content: ''; position: absolute; top: -12px; left: 0; right: 0; height: 12px;
       background: transparent;
     }
     .lp-nav-dropdown:hover .lp-nav-dropdown-menu { display: flex; }
