@@ -849,9 +849,13 @@
     .lp-whats-new {
       max-width: 1100px;
       margin: 2rem auto 0;
-      display: none;
+      /* Space reserved from first paint (opacity, not display) to avoid CLS
+         when the async release data reveals the banner. */
+      opacity: 0;
+      transition: opacity .3s ease;
     }
-    .lp-whats-new.visible { display: block; }
+    .lp-whats-new.visible { opacity: 1; }
+    .lp-whats-new.hidden { display: none; }
     .lp-whats-new-card {
       background: var(--surface);
       border: 1px solid rgba(245,192,32,.25);
@@ -1781,14 +1785,18 @@
           return { name: t.name, tag: data.tag_name, date: data.published_at };
         }));
         const valid = results.filter(Boolean);
-        if (!valid.length) return;
+        if (!valid.length) { document.getElementById('lp-whats-new').classList.add('hidden'); return; }
         const latest = valid.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
         const d = new Date(latest.date);
         const dateStr = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         document.getElementById('lp-wn-name').textContent = `${latest.name} ${latest.tag}`;
         document.getElementById('lp-wn-date').textContent = `Released ${dateStr}`;
         document.getElementById('lp-whats-new').classList.add('visible');
-      } catch(e) { console.error('Whats New error:', e); }
+      } catch(e) {
+        console.error('Whats New error:', e);
+        const wn = document.getElementById('lp-whats-new');
+        if (wn) wn.classList.add('hidden');
+      }
     })();
   </script>
   <script>
