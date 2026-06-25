@@ -144,8 +144,8 @@
     /* PRINCIPLES GRID */
     .lp-principles {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1px;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 2px;
       background: var(--border);
       border: 1px solid var(--border);
       margin-top: 1.75rem;
@@ -269,7 +269,7 @@
     [data-theme="light"] .lp-mobile-menu { background: rgba(245,242,236,.98); }
     .lp-theme-toggle { background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .2s, border-color .2s; font-size: 1rem; flex-shrink: 0; }
     .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
-  
+
     /* Search */
     .lp-search-wrap { position: relative; display: flex; align-items: center; }
     .lp-search-input { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .05em; background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: .4rem .75rem .4rem 2rem; width: 200px; outline: none; transition: border-color .2s, width .2s; }
@@ -290,7 +290,7 @@
     .lp-tool-badge-lava { background: rgba(245,192,32,.15); color: var(--gold); border: 1px solid rgba(245,192,32,.3); }
     .lp-tool-badge-lang { background: rgba(48,58,106,.2); color: #303A6A; border: 1px solid rgba(48,58,106,.4); }
     @media (max-width: 768px) { .lp-search-wrap { display: none; } }
-  
+
     .lp-mobile-search { padding: .5rem 0 .75rem; border-bottom: 1px solid var(--border); margin-bottom: .25rem; position: relative; }
     .lp-mobile-search-input { width: 100%; font-family: var(--font-mono); font-size: .8rem; letter-spacing: .04em; background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: .5rem .75rem .5rem 2.25rem; outline: none; transition: border-color .2s; }
     .lp-mobile-search-input:focus { border-color: var(--gold); }
