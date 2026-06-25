@@ -11,6 +11,10 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
+    // Run the Worker (OG injection) before serving the static asset for blog
+    // posts — otherwise blog-post.html is served directly and the Worker is
+    // bypassed. Every other path serves the asset directly.
+    "run_worker_first": ["/blog-post"],
     // Serve /releases from releases.html and redirect /releases.html -> /releases
     "html_handling": "auto-trailing-slash",
     // Serve our custom 404.html on unknown paths instead of a bare 404
