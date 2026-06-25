@@ -565,7 +565,7 @@
 
       const ghBase = `https://github.com/${TOOLS.find(t => t.id === a.toolId)?.repo}/blob/main/${ARTIFACTS_PATH}/${escHtml(a.filename)}`;
 
-      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.paths.join(' ')).toLowerCase())}">
+      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.paths.join(' ') + ' ' + a.filename).toLowerCase())}">
         <td>
           <div class="lp-art-name"><a href="${ghBase}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">${escHtml(a.name)}</a></div>
           ${a.description ? `<div class="lp-art-desc">${escHtml(a.description)}</div>` : ''}
@@ -675,6 +675,18 @@
       }
 
       renderAll();
+      applyDeepLink();
+    }
+
+    // Pre-filter from a ?q= deep link (e.g. arriving from the global navbar search)
+    function applyDeepLink() {
+      const q = new URLSearchParams(location.search).get('q');
+      if (!q) return;
+      searchQuery = q.trim().toLowerCase();
+      const input = document.getElementById('search-input');
+      if (input) input.value = q;
+      applyFilters();
+      if (input) input.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     // ── EVENT LISTENERS ──────────────────────────────────────────────────────

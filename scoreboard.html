@@ -721,7 +721,7 @@
           artifactRess.forEach(({ tool, files }) => {
             if (!Array.isArray(files)) return;
             files.filter(f => f.name.endsWith('.py') && f.name !== '__init__.py').forEach(f => {
-              artifacts.push({ name: f.name.replace('.py', '').replace(/_/g, ' '), tool: tool.name, url: `https://github.com/${tool.repo}/blob/main/scripts/artifacts/${f.name}` });
+              artifacts.push({ name: f.name.replace('.py', '').replace(/_/g, ' '), tool: tool.name, url: `https://leapps.org/artifacts?q=${encodeURIComponent(f.name.replace(/\.py$/, ""))}` });
             });
           });
           cache = { posts, artifacts, pages };
