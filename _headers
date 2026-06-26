@@ -15,3 +15,7 @@
 # The analytics loader — 1 hour.
 /analytics.js
   Cache-Control: public, max-age=3600
+
+# Shared stylesheet — 1 hour, so cross-page navigation reuses it.
+/css/*
+  Cache-Control: public, max-age=3600
