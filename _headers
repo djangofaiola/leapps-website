@@ -1,0 +1,17 @@
+# Cache-Control for static assets served by Cloudflare.
+# HTML, JSON and Markdown are intentionally left at the default
+# (revalidate) so deploys and content edits show immediately.
+
+# Images rarely change — cache for 30 days.
+/img/*
+  Cache-Control: public, max-age=2592000
+/logos/*
+  Cache-Control: public, max-age=2592000
+
+# Per-post social cards — 1 day (regenerated when a post changes).
+/blog/og/*
+  Cache-Control: public, max-age=86400
+
+# The analytics loader — 1 hour.
+/analytics.js
+  Cache-Control: public, max-age=3600

@@ -916,7 +916,7 @@
         try {
           const [blogRes, pagesRes, ...artifactRess] = await Promise.all([
             fetch(`/blog/posts/index.json`).then(r => r.ok ? r.json() : []),
-            fetch(`${WORKER}/search-index`).then(r => r.ok ? r.json() : []),
+            fetch(`/search-index.json`).then(r => r.ok ? r.json() : []),
             ...TOOLS.map(t => fetch(`${WORKER}/repos/${t.repo}/contents/scripts/artifacts`).then(r => r.ok ? r.json() : []).then(files => ({ tool: t, files })))
           ]);
           const posts = Array.isArray(blogRes) ? blogRes : [];
