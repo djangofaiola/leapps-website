@@ -45,6 +45,7 @@
       --rank-3: #9B59B6;
       --rank-4: #F5C020;
       --rank-5: #E8762D;
+      --rank-6: #E0405E;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--off-black); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
@@ -149,6 +150,7 @@
     .rank-badge.rank-3 { background: rgba(83,29,171,.12);  color: var(--rank-3); border: 1px solid rgba(83,29,171,.3); }
     .rank-badge.rank-4 { background: rgba(245,192,32,.12);  color: var(--rank-4); border: 1px solid rgba(245,192,32,.3); }
     .rank-badge.rank-5 { background: rgba(75,163,199,.12);  color: var(--rank-5); border: 1px solid rgba(75,163,199,.3); }
+    .rank-badge.rank-6 { background: rgba(224,64,94,.12);  color: var(--rank-6); border: 1px solid rgba(224,64,94,.3); }
 
     /* SCOREBOARD CONTROLS */
     .lp-sb-controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
@@ -348,7 +350,12 @@
         <div class="rank-card">
           <span class="rank-card-icon" style="color:var(--rank-5)"><i class="ti ti-crown" aria-hidden="true"></i></span>
           <div class="rank-card-title" style="color:var(--rank-5)">Lead Examiner</div>
-          <div class="rank-card-threshold">75+ merged PRs</div>
+          <div class="rank-card-threshold">75 – 109 merged PRs</div>
+        </div>
+        <div class="rank-card">
+          <span class="rank-card-icon" style="color:var(--rank-6)"><i class="ti ti-diamond" aria-hidden="true"></i></span>
+          <div class="rank-card-title" style="color:var(--rank-6)">Forensic Legend</div>
+          <div class="rank-card-threshold">110+ merged PRs</div>
         </div>
       </div>
     </div>
@@ -420,6 +427,7 @@
     ];
 
     const RANKS = [
+      { minPRs: 110, level: 6, title: 'Forensic Legend',     icon: 'ti-diamond',     cls: 'rank-6' },
       { minPRs: 75, level: 5, title: 'Lead Examiner',       icon: 'ti-crown',       cls: 'rank-5' },
       { minPRs: 35, level: 4, title: 'Senior Investigator', icon: 'ti-star-filled',  cls: 'rank-4' },
       { minPRs: 15, level: 3, title: 'Forensic Examiner',   icon: 'ti-microscope',   cls: 'rank-3' },
