@@ -8,9 +8,11 @@
 /logos/*
   Cache-Control: public, max-age=2592000
 
-# Per-post social cards — 1 day (regenerated when a post changes).
+# Per-post social cards — 1 hour. Short on purpose: this rule also lands on
+# a 404 if a card is ever requested before it deploys, so a brief cache keeps
+# a stray 404 from sticking for a day.
 /blog/og/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600
 
 # The analytics loader — 1 hour.
 /analytics.js
