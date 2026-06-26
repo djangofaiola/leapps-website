@@ -500,7 +500,9 @@ img { max-width: 100%; display: block; }
     async function loadPost() {
       const container = document.getElementById('post-content');
       const params = new URLSearchParams(window.location.search);
-      const slug = params.get('post');
+      // Tolerate a stray trailing slash on the slug (e.g. ...-images/) so a
+      // pasted URL still resolves instead of showing "Post not found".
+      const slug = (params.get('post') || '').replace(/\/+$/, '');
 
       if (!slug || !slug.match(/^[\w-]+$/)) {
         container.innerHTML = `

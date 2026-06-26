@@ -15,7 +15,10 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/blog-post') {
-      const slug = url.searchParams.get('post');
+      // Tolerate a stray trailing slash on the slug (e.g. ...-images/), which
+      // a pasted URL can carry — otherwise the slug fails validation and the
+      // per-post OG tags are silently skipped.
+      const slug = (url.searchParams.get('post') || '').replace(/\/+$/, '');
       if (slug && /^[\w-]+$/.test(slug)) {
         try {
           return await injectOG(request, url, slug, env);
