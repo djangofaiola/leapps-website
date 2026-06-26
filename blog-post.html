@@ -676,7 +676,7 @@
       }
 
       try {
-        const res = await fetch(`${WORKER}/blog/posts/${encodeURIComponent(slug)}.md`);
+        const res = await fetch(`/blog/posts/${encodeURIComponent(slug)}.md`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const raw = await res.text();
 
@@ -822,7 +822,7 @@
 
     async function loadRelated(currentSlug, currentMeta) {
       try {
-        const res = await fetch(`${WORKER}/blog/posts/index.json`);
+        const res = await fetch(`/blog/posts/index.json`);
         if (!res.ok) return;
         const all = await res.json();
         if (!Array.isArray(all) || !all.length) return;
@@ -985,7 +985,7 @@
         loading = true;
         try {
           const [blogRes, pagesRes, ...artifactRess] = await Promise.all([
-            fetch(`${WORKER}/blog/posts/index.json`).then(r => r.ok ? r.json() : []),
+            fetch(`/blog/posts/index.json`).then(r => r.ok ? r.json() : []),
             fetch(`${WORKER}/search-index`).then(r => r.ok ? r.json() : []),
             ...TOOLS.map(t => fetch(`${WORKER}/repos/${t.repo}/contents/scripts/artifacts`).then(r => r.ok ? r.json() : []).then(files => ({ tool: t, files })))
           ]);
