@@ -109,13 +109,15 @@ Blog posts are plain Markdown files. Adding a post is two file changes and a pul
 
 ### 1. Create the Markdown file
 
-Add a file to `blog/posts/` named with this format:
+Add a Markdown file to `blog/posts/`. The filename (without `.md`) becomes the post's **slug** — its public URL — so it must be URL-safe and unique: lowercase letters, digits, and hyphens. Pick something short and descriptive:
 
 ```
-YYYY-MM-DD-your-post-title.md
+your-post-title.md
 ```
 
-Start it with YAML frontmatter:
+Dating the slug (`2026-06-05-your-post-title.md`) is an **optional** convention — it keeps the folder sorted and guarantees uniqueness — but it is not required. The `date` frontmatter field below is what the site uses for ordering and display, not the filename.
+
+Start the file with YAML frontmatter:
 
 ```markdown
 ---
@@ -145,7 +147,7 @@ Open `blog/posts/index.json` and add an entry at the **top** of the array (newes
 
 ```json
 {
-  "slug": "2026-06-05-your-post-title",
+  "slug": "your-post-title",
   "title": "Your Post Title",
   "date": "2026-06-05",
   "author": "Your Name",
@@ -165,7 +167,7 @@ Field rules (enforced by CI — see step 5):
 Put images in `blog/images/<slug>/` and reference them from the Markdown via the jsDelivr CDN so they load fast and cached:
 
 ```markdown
-![Alt text](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-05-your-post-title/screenshot.png)
+![Alt text](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/your-post-title/screenshot.png)
 ```
 
 ### 4. Social card — automatic
