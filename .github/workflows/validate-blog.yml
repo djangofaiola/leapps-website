@@ -2,7 +2,7 @@ name: Validate blog manifest
 
 # Validates a post's frontmatter and filename before merge: a URL-safe slug,
 # required fields, and a valid YYYY-MM-DD date. The index itself is generated
-# post-merge (see generate-blog-index.yml), so this checks the source posts,
+# post-merge (see generate-blog.yml), so this checks the source posts,
 # not index.json — a contributor never edits the index by hand.
 
 on:

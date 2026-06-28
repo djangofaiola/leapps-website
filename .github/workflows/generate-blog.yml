@@ -1,0 +1,71 @@
+name: Generate blog index and cards
+
+# Regenerates blog/posts/index.json (from post frontmatter) AND the OG social
+# cards, then commits both in one push. This is a single job on purpose:
+#
+# GitHub does not trigger workflows from pushes made with the default
+# GITHUB_TOKEN, so an index-generating job that pushed index.json could NOT
+# chain to a separate card-generating workflow — the new post's card would
+# never be built. Doing both here, on the real push that adds the post, avoids
+# that and keeps index + cards in a single atomic deploy.
+#
+# Runs on a post change (regenerates index + cards) or an og-cards template
+# change (regenerates cards). The index step is cheap and idempotent, so it is
+# fine to run in both cases.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/posts/*.md'
+      - 'scripts/generate_blog_index.py'
+      - 'tools/og-cards/**'
+      - '.github/workflows/generate-blog.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-main-push
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate blog index
+        run: python3 scripts/generate_blog_index.py
+
+      - name: Install card generator deps
+        working-directory: tools/og-cards
+        run: npm install --no-audit --no-fund
+
+      - name: Generate OG cards
+        working-directory: tools/og-cards
+        run: node generate.mjs
+
+      - name: Commit index and cards
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog/posts/index.json blog/og
+          if git diff --cached --quiet; then
+            echo "Nothing to update."
+          else
+            git commit -m "chore: regenerate blog index and OG cards"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

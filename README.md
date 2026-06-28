@@ -144,7 +144,7 @@ Your content starts here...
 
 ### 2. The index generates itself
 
-**Do not edit `blog/posts/index.json` by hand.** It is generated from each post's frontmatter by `scripts/generate_blog_index.py`, which a GitHub Action runs on every push to `main` (see [`.github/workflows/generate-blog-index.yml`](.github/workflows/generate-blog-index.yml)). Your job is just to get the post's filename and frontmatter right:
+**Do not edit `blog/posts/index.json` by hand.** It is generated from each post's frontmatter by `scripts/generate_blog_index.py`, which a GitHub Action runs on every push to `main` (see [`.github/workflows/generate-blog.yml`](.github/workflows/generate-blog.yml) — the same job also regenerates the social cards). Your job is just to get the post's filename and frontmatter right:
 
 - **Filename → slug** — the filename without `.md` becomes the post's slug and public URL, so it must be URL-safe (`[\w-]+`: letters, digits, hyphen, underscore; lowercase by convention) and unique. The `YYYY-MM-DD-` prefix is an optional convention, not a requirement.
 - **`date`** — `YYYY-MM-DD`. This field (not the filename) drives ordering, prev/next, related posts, and the social-card cache-bust.
@@ -161,7 +161,7 @@ Put images in `blog/images/<slug>/` and reference them from the Markdown via the
 
 ### 4. Social card — automatic
 
-You do **not** create the 1200×630 social-share card. A GitHub Action (`.github/workflows/og-cards.yml`) regenerates `blog/og/<slug>.png` whenever `blog/posts/**` changes on `main`, using the generator in `tools/og-cards/`. The edge Worker then serves it for the post's OG tags.
+You do **not** create the 1200×630 social-share card. The same `generate-blog.yml` Action that builds the index also regenerates `blog/og/<slug>.png` (using the generator in `tools/og-cards/`) and commits it alongside the index on every post change. The edge Worker then serves it for the post's OG tags.
 
 ### 5. Open a pull request
 
