@@ -1,6 +1,6 @@
 ---
 title: Introducing Batch LEAPP
-date: 2026-06-29
+date: 2026-06-28
 author: Alexis Brignoni
 tags: [iLEAPP, ALEAPP, RLEAPP, VLEAPP, tools, batch]
 excerpt: Batch LEAPP runs any LEAPP tool across an entire folder of extractions and builds one report index that links every result, with hashing and a manifest for your case file. Here is what it does and how to get it.

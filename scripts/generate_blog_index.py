@@ -2,9 +2,14 @@
 """Generate (or validate) blog/posts/index.json from each post's Markdown frontmatter.
 
 The index is a derived artifact: it is rebuilt from the posts on every push to
-main (see .github/workflows/generate-blog-index.yml), so contributors never edit
+main (see .github/workflows/generate-blog.yml), so contributors never edit
 it by hand. The same script runs in --check mode on pull requests to validate a
 post's frontmatter and filename before merge.
+
+Posts are ordered pinned-first, then by the displayed `date`, then by when the
+post landed on main (merge order) so same-day posts sort newest-merged-first
+automatically — see merge_ts(). That tiebreaker needs git history, so the
+workflow checks out with fetch-depth: 0.
 
 Usage:
     python3 scripts/generate_blog_index.py            # write blog/posts/index.json
@@ -15,6 +20,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -111,6 +117,28 @@ def validate(path: Path, meta, errors: list, warnings: list) -> None:
         warnings.append(f"{path.name}: slug date prefix ({m.group(1)}) disagrees with the date field ({meta['date']}).")
 
 
+def merge_ts(path: Path) -> int:
+    """When the post first landed on main, as a Unix timestamp.
+
+    Uses the commit date of the file's add commit on the first-parent (mainline)
+    history, so it reflects *merge* order rather than when the contributor
+    authored it. Used only as a same-date sort tiebreaker. Returns a large
+    sentinel if git history is unavailable (e.g. a new, not-yet-committed post,
+    or a shallow clone) so such a post sorts as the newest of its day.
+    """
+    try:
+        rel = str(path.relative_to(ROOT))
+        out = subprocess.run(
+            ["git", "log", "--first-parent", "--diff-filter=A", "--format=%ct", "--", rel],
+            cwd=ROOT, capture_output=True, text=True, check=True,
+        ).stdout.split()
+        if out:
+            return int(out[-1])  # earliest add commit on mainline
+    except (subprocess.SubprocessError, ValueError, OSError):
+        pass
+    return 10 ** 12
+
+
 def entry(path: Path, meta) -> dict:
     e = {
         "slug": path.stem,
@@ -145,12 +173,15 @@ def main() -> int:
         print(f"\nBlog frontmatter invalid — {len(errors)} error(s), {len(warnings)} warning(s).", file=sys.stderr)
         return 1
 
-    posts = [entry(p, m) for p, m in parsed]
-    posts.sort(key=lambda post: (bool(post.get("pinned")), post.get("date", ""), post.get("slug", "")), reverse=True)
-
     if check_only:
-        print(f"Blog frontmatter valid — {len(posts)} post(s), {len(warnings)} warning(s).")
+        print(f"Blog frontmatter valid — {len(parsed)} post(s), {len(warnings)} warning(s).")
         return 0
+
+    # Order: pinned first, then by displayed date, then by when the post landed
+    # on main (merge order, newest first); slug is a final stable fallback.
+    rows = [(merge_ts(p), entry(p, m)) for p, m in parsed]
+    rows.sort(key=lambda r: (bool(r[1].get("pinned")), r[1].get("date", ""), r[0], r[1].get("slug", "")), reverse=True)
+    posts = [e for _, e in rows]
 
     INDEX_PATH.write_text(json.dumps(posts, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Wrote {INDEX_PATH.relative_to(ROOT)} — {len(posts)} post(s).")
