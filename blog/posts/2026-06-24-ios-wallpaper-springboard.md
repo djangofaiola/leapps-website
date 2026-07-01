@@ -19,6 +19,7 @@ This post is about the older side of that work: **pre-iOS 16 wallpaper files sto
 The artifact appears in iLEAPP as **SpringBoard Wallpaper** in the **iOS Screens** category.
 
 ![iLEAPP module selection showing the SpringBoard Wallpaper artifact](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-24-ios-wallpaper-springboard/ileapp-springboard-wallpaper.png)
+*Figure 1: iLEAPP GUI showing Springboard artifact selection*
 
 ## Where the files live
 
@@ -36,6 +37,7 @@ Library/SpringBoard/OriginalLockBackgrounddark.cpbitmap
 That mix is important. The `.cpbitmap` files need conversion before they are useful to most examiners, while the JPG thumbnails can be checked into iLEAPP's media pipeline directly.
 
 ![Crush Forensics file listing showing iOS 15 SpringBoard wallpaper files](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-24-ios-wallpaper-springboard/crush-ios15-lockbackground.png)
+*Figure 2: Crush Forensics file listing showing wallpaper files*
 
 For this first pass, the SpringBoard wallpaper artifact searches for background files using these patterns:
 
@@ -84,6 +86,7 @@ None of that is glamorous, but it is the kind of boring work that makes a parser
 In LAVA, the converted wallpaper images show up alongside the source filename, type, variant, status, and location. For this iOS 15 sample, the artifact recovered the current, dark, original, and original dark lock screen backgrounds from SpringBoard.
 
 ![LAVA table showing converted iOS 15 SpringBoard wallpaper artifacts](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-24-ios-wallpaper-springboard/lava-ios15-wallpaper.png)
+*Figure 3: LAVA showing converted wallpaper images*
 
 The status column is useful because it tells you whether a file was converted from cpbitmap or checked in directly as media. The source path is also shown, because with wallpaper artifacts the location can be part of the story.
 
