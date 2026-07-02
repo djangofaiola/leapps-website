@@ -1,5 +1,18 @@
 [
   {
+    "slug": "2026-07-02-life360",
+    "title": "SELECT * FROM life360 WHERE alibi = FALSE;",
+    "date": "2026-07-02",
+    "author": "Heather Charpentier",
+    "tags": [
+      "ALEAPP",
+      "Android",
+      "Life360",
+      "research"
+    ],
+    "excerpt": "A forensic analysis of the Life360 app on Android — account identifiers, Circle members, saved Places and alerts, pet trackers, drives and driving events, location history, waypoints, and battery levels, all now supported in ALEAPP."
+  },
+  {
     "slug": "home-depot-ios-artifacts",
     "title": "Getting It Done with Home Depot iOS Artifacts",
     "date": "2026-06-29",
