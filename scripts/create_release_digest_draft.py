@@ -155,10 +155,13 @@ def generate_intro(releases: list) -> str:
             messages=[{
                 "role": "user",
                 "content": (
-                    "Write a 2-3 sentence intro paragraph for a mailing list "
-                    "email announcing these releases. Summarize what matters to "
-                    "a forensic examiner reading it. Return only the paragraph, "
-                    "nothing else.\n\n" + notes
+                    "Write the intro paragraph for a mailing list email "
+                    "announcing these releases. Mention every tool released by "
+                    "name, with a brief note on what its update brings a "
+                    "forensic examiner. Keep it to 2-3 sentences for a single "
+                    "release, and up to 4-5 sentences when several tools "
+                    "released together — every tool must get a mention. Return "
+                    "only the paragraph, nothing else.\n\n" + notes
                 ),
             }],
         )
