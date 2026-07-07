@@ -1,0 +1,49 @@
+name: Blog mailing list draft
+
+# When a push to main ADDS a new post under blog/posts/, create a Mailjet
+# campaign draft announcing it to the mailing list. The draft is NOT sent —
+# review and send it from the Mailjet dashboard (Campaigns → Drafts).
+#
+# Repo configuration this needs (Settings → Secrets and variables → Actions):
+#   Secrets:   MAILJET_API_KEY, MAILJET_API_SECRET
+#   Variables: MAILJET_LIST_ID, MAILJET_SENDER_EMAIL, MAILJET_SENDER_NAME
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/posts/*.md'
+
+permissions:
+  contents: read
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find newly added posts
+        id: added
+        run: |
+          # github.event.before is all zeros on a brand-new branch; nothing to diff.
+          if [[ "${{ github.event.before }}" =~ ^0+$ ]]; then
+            echo "files=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          files=$(git diff --diff-filter=A --name-only \
+            "${{ github.event.before }}" "${{ github.sha }}" -- 'blog/posts/*.md' | tr '\n' ' ')
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+          echo "New posts: ${files:-none}"
+
+      - name: Create Mailjet campaign draft
+        if: steps.added.outputs.files != ''
+        env:
+          MAILJET_API_KEY: ${{ secrets.MAILJET_API_KEY }}
+          MAILJET_API_SECRET: ${{ secrets.MAILJET_API_SECRET }}
+          MAILJET_LIST_ID: ${{ vars.MAILJET_LIST_ID }}
+          MAILJET_SENDER_EMAIL: ${{ vars.MAILJET_SENDER_EMAIL }}
+          MAILJET_SENDER_NAME: ${{ vars.MAILJET_SENDER_NAME }}
+        run: python3 scripts/create_mailing_draft.py ${{ steps.added.outputs.files }}
