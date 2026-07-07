@@ -3,10 +3,52 @@
   "window_days": 45,
   "items": [
     {
+      "name": "biomeNotificationUsage",
+      "query": "biomeNotificationUsage",
+      "tool": "iLEAPP",
+      "date": "2026-07-07"
+    },
+    {
       "name": "Oura",
       "query": "Oura",
       "tool": "iLEAPP",
-      "date": "2026-07-01"
+      "date": "2026-07-02"
+    },
+    {
+      "name": "apple atx images",
+      "query": "apple_atx_images",
+      "tool": "iLEAPP",
+      "date": "2026-07-02"
+    },
+    {
+      "name": "home depot",
+      "query": "home_depot",
+      "tool": "iLEAPP",
+      "date": "2026-07-02"
+    },
+    {
+      "name": "keychain",
+      "query": "keychain",
+      "tool": "iLEAPP",
+      "date": "2026-07-02"
+    },
+    {
+      "name": "rctAsyncStorageManifest",
+      "query": "rctAsyncStorageManifest",
+      "tool": "iLEAPP",
+      "date": "2026-07-02"
+    },
+    {
+      "name": "springboard",
+      "query": "springboard",
+      "tool": "iLEAPP",
+      "date": "2026-07-02"
+    },
+    {
+      "name": "widgets",
+      "query": "widgets",
+      "tool": "iLEAPP",
+      "date": "2026-07-02"
     },
     {
       "name": "L360circlesettings",
@@ -31,48 +73,6 @@
       "query": "L360memberscircles",
       "tool": "ALEAPP",
       "date": "2026-07-01"
-    },
-    {
-      "name": "L360noshowalerts",
-      "query": "L360noshowalerts",
-      "tool": "ALEAPP",
-      "date": "2026-07-01"
-    },
-    {
-      "name": "L360petprofile",
-      "query": "L360petprofile",
-      "tool": "ALEAPP",
-      "date": "2026-07-01"
-    },
-    {
-      "name": "L360places",
-      "query": "L360places",
-      "tool": "ALEAPP",
-      "date": "2026-07-01"
-    },
-    {
-      "name": "L360user",
-      "query": "L360user",
-      "tool": "ALEAPP",
-      "date": "2026-07-01"
-    },
-    {
-      "name": "home depot",
-      "query": "home_depot",
-      "tool": "iLEAPP",
-      "date": "2026-06-30"
-    },
-    {
-      "name": "samsungSecureFolderHistoryLog",
-      "query": "samsungSecureFolderHistoryLog",
-      "tool": "ALEAPP",
-      "date": "2026-06-30"
-    },
-    {
-      "name": "apple atx images",
-      "query": "apple_atx_images",
-      "tool": "iLEAPP",
-      "date": "2026-06-26"
     }
   ]
 }
