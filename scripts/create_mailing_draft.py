@@ -66,28 +66,28 @@ def build_email(meta: dict, slug: str) -> tuple[str, str]:
     html_part = f"""<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8" /></head>
-<body style="margin:0; padding:0; background:#f4f4f4; font-family:Arial,Helvetica,sans-serif; color:#1a1a1a;">
+<body style="margin:0; padding:0; background:#0E0E0E; font-family:Arial,Helvetica,sans-serif; color:#F0EDE6;">
   <div style="max-width:600px; margin:0 auto; padding:24px 16px;">
-    <div style="background:#ffffff; border:1px solid #e0e0e0;">
+    <div style="background:#161616; border:1px solid #2C2C2C;">
       <a href="{post_url}" style="text-decoration:none;">
         <img src="{card_url}" alt="{title}" width="600"
              style="display:block; width:100%; height:auto; border:0;" />
       </a>
       <div style="padding:28px 28px 32px;">
-        <p style="margin:0 0 8px; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#b8860b;">
+        <p style="margin:0 0 8px; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#F5C020;">
           New on the LEAPPs Blog
         </p>
         <h1 style="margin:0 0 12px; font-size:26px; line-height:1.2;">
-          <a href="{post_url}" style="color:#1a1a1a; text-decoration:none;">{title}</a>
+          <a href="{post_url}" style="color:#F0EDE6; text-decoration:none;">{title}</a>
         </h1>
-        <p style="margin:0 0 18px; font-size:13px; color:#666666;">
+        <p style="margin:0 0 18px; font-size:13px; color:#888888;">
           By {author} &middot; {date}
         </p>
-        <p style="margin:0 0 24px; font-size:15px; line-height:1.6; color:#333333;">
+        <p style="margin:0 0 24px; font-size:15px; line-height:1.6; color:#CFC9BE;">
           {excerpt}
         </p>
         <a href="{post_url}"
-           style="display:inline-block; background:#1a1a1a; color:#ffffff; font-size:14px; font-weight:bold;
+           style="display:inline-block; background:#F5C020; color:#0E0E0E; font-size:14px; font-weight:bold;
                   letter-spacing:1px; text-transform:uppercase; text-decoration:none; padding:12px 28px;">
           Read the post
         </a>
