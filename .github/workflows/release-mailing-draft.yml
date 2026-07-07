@@ -1,0 +1,45 @@
+name: Release mailing list draft
+
+# Daily check for new tool releases across the LEAPP repos (iLEAPP, ALEAPP,
+# RLEAPP, VLEAPP, LAVA, Batch LEAPP). If any were published in the lookback
+# window, creates ONE Mailjet campaign draft digesting them all — same-day
+# releases become a single email. The draft is NOT sent; review and send it
+# from the Mailjet dashboard (Campaigns → Drafts).
+#
+# Uses the same repo configuration as blog-mailing-draft.yml:
+#   Secrets:   MAILJET_API_KEY, MAILJET_API_SECRET
+#   Variables: MAILJET_LIST_ID, MAILJET_SENDER_EMAIL, MAILJET_SENDER_NAME
+
+on:
+  schedule:
+    # Daily at 13:30 UTC. The 25h lookback overlaps runs slightly so a
+    # delayed cron can't skip a release; a rare duplicate draft is harmless
+    # because drafts are reviewed before sending.
+    - cron: '30 13 * * *'
+  # Manual test run: pick a wider window (e.g. 720 = last 30 days) to get a
+  # draft without waiting for a fresh release. Still draft-only.
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'Lookback window in hours'
+        required: true
+        default: '25'
+
+permissions:
+  contents: read
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create release digest draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAILJET_API_KEY: ${{ secrets.MAILJET_API_KEY }}
+          MAILJET_API_SECRET: ${{ secrets.MAILJET_API_SECRET }}
+          MAILJET_LIST_ID: ${{ vars.MAILJET_LIST_ID }}
+          MAILJET_SENDER_EMAIL: ${{ vars.MAILJET_SENDER_EMAIL }}
+          MAILJET_SENDER_NAME: ${{ vars.MAILJET_SENDER_NAME }}
+        run: python3 scripts/create_release_digest_draft.py --hours "${{ inputs.hours || 25 }}"
