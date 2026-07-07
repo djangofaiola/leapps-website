@@ -687,6 +687,7 @@ img { max-width: 100%; display: block; }
 .lp-contrib-tag-rleapp { background: rgba(75,163,199,.15); color: #4BA3C7; border: 1px solid rgba(75,163,199,.3); }
 .lp-contrib-tag-vleapp { background: rgba(83,29,171,.15); color: #531dab; border: 1px solid rgba(83,29,171,.3); }
 .lp-contrib-tag-lava { background: rgba(245,192,32,.15); color: var(--gold); border: 1px solid rgba(245,192,32,.3); }
+.lp-contrib-tag-batch { background: rgba(232,118,45,.15); color: #E8762D; border: 1px solid rgba(232,118,45,.3); }
 .lp-contrib-tag-lang { background: rgba(48,58,106,.25); color: #6b7fd4; border: 1px solid rgba(48,58,106,.6); }
 .lp-contrib-loading { padding: 2rem; text-align: center; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); background: var(--surface); border: 1px solid var(--border); }
 .lp-contrib-toggle {
@@ -1386,6 +1387,7 @@ img { max-width: 100%; display: block; }
         { name: 'ALEAPP',  repo: 'abrignoni/ALEAPP' },
         { name: 'RLEAPP',  repo: 'abrignoni/RLEAPP' },
         { name: 'VLEAPP',  repo: 'abrignoni/VLEAPP' },
+        { name: 'Batch LEAPP', repo: 'abrignoni/batch-leapp' },
       ];
 
       function getInitials(login) {
@@ -1400,7 +1402,7 @@ img { max-width: 100%; display: block; }
       }
 
       function buildRow(c) {
-        const toolClass = { 'iLEAPP': 'ileapp', 'ALEAPP': 'aleapp', 'RLEAPP': 'rleapp', 'VLEAPP': 'vleapp', 'LAVA': 'lava' };
+        const toolClass = { 'iLEAPP': 'ileapp', 'ALEAPP': 'aleapp', 'RLEAPP': 'rleapp', 'VLEAPP': 'vleapp', 'LAVA': 'lava', 'Batch LEAPP': 'batch' };
         const tools = c.tools.map(t => {
           const cls = toolClass[t];
           return `<span class="lp-contrib-tag${cls ? ' lp-contrib-tag-' + cls : ''}">${t}</span>`;
