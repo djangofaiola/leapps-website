@@ -67,4 +67,4 @@ Two things make this measurement trustworthy instead of naive. Modules that touc
 
 Coverage mode needs source checkouts of iLEAPP or ALEAPP, since the inventory artifacts ship in the repos. Everything is free and open source, and now the "what should we build next?" conversation has data behind it. When the first modules born from this list land, I will re-run the corpus and show you the before and after.
 
-Feedback and pull requests are welcome.
+Feedback and pull requests are welcome. You can reach me at [abrignoni.github.io](https://abrignoni.github.io) or email abrignoni[at]duck[dot]com.
