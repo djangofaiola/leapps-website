@@ -1,5 +1,20 @@
 [
   {
+    "slug": "2026-07-08-app-coverage-analysis",
+    "title": "The Apps We Are Not Parsing (Yet)",
+    "date": "2026-07-08",
+    "author": "Alexis Brignoni",
+    "tags": [
+      "iLEAPP",
+      "ALEAPP",
+      "LAVA",
+      "batch",
+      "coverage",
+      "tools"
+    ],
+    "excerpt": "Batch LEAPP now answers a question I have wanted answered for years — out of all the apps installed on our test devices, which ones do the LEAPPs actually parse, and which ones are we missing? One flag, one database, and a data-driven module-writing roadmap."
+  },
+  {
     "slug": "2026-07-02-life360",
     "title": "SELECT * FROM life360 WHERE alibi = FALSE;",
     "date": "2026-07-02",
