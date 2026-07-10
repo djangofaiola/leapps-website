@@ -79,6 +79,8 @@
 .lp-table tr.hidden { display: none; }
 .lp-art-name { font-family: var(--font-head); font-size: 1rem; font-weight: 700; text-transform: uppercase; color: var(--text); line-height: 1.15; }
 .lp-art-desc { font-size: .78rem; color: var(--muted); margin-top: .2rem; line-height: 1.5; }
+.lp-art-author { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .05em; color: var(--muted); margin-top: .3rem; display: inline-flex; align-items: center; gap: .3rem; opacity: .85; }
+.lp-art-author .ti { font-size: .8rem; }
 .lp-tool-tag { display: inline-block; font-family: var(--font-mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .5rem; border: 1px solid; white-space: nowrap; }
 .lp-tool-tag.ileapp { color: var(--color-ileapp); border-color: rgba(227,6,19,.3); }
 .lp-tool-tag.aleapp { color: var(--color-aleapp); border-color: rgba(164,198,57,.3); }
@@ -246,7 +248,7 @@
     <div class="lp-controls">
       <div class="lp-search-wrap">
         <i class="ti ti-search" aria-hidden="true"></i>
-        <input class="lp-search" id="search-input" type="search" placeholder="Search artifact name, category, or file path…" />
+        <input class="lp-search" id="search-input" type="search" placeholder="Search artifact name, category, author, or file path…" />
       </div>
       <select class="lp-cat-select" id="cat-select" aria-label="Filter by category">
         <option value="all">All Categories</option>
@@ -338,6 +340,17 @@
       return m ? m[1] : '';
     }
 
+    // Like extractStr, but joins Python implicit string concatenation so
+    // multi-line values (common for `description`) are captured in full, e.g.
+    //   "description": "first part "
+    //                  "second part"
+    function extractStrJoined(body, field) {
+      const m = body.match(new RegExp(`['"]${field}['"]\\s*:\\s*((?:(['"])(?:[^'"\\\\]|\\\\.)*\\2\\s*)+)`));
+      if (!m) return '';
+      const segs = [...m[1].matchAll(/(['"])((?:[^'"\\]|\\.)*?)\1/g)].map(x => x[2]);
+      return segs.join('').replace(/\s+/g, ' ').trim();
+    }
+
     function extractPaths(body) {
       const m = body.match(/['"]paths['"]\s*:\s*\(([^)]*)\)/s);
       if (!m) return [];
@@ -415,9 +428,9 @@
 
         results.push({
           key, name, toolId, filename,
-          description: extractStr(body, 'description'),
+          description: extractStrJoined(body, 'description'),
           category: category || 'Uncategorized',
-          author: extractStr(body, 'author'),
+          author: extractStrJoined(body, 'author'),
           paths: extractPaths(body),
           outputTypes: extractOutputTypes(body),
         });
@@ -510,10 +523,11 @@
 
       const ghBase = `https://github.com/${TOOLS.find(t => t.id === a.toolId)?.repo}/blob/main/${ARTIFACTS_PATH}/${escHtml(a.filename)}`;
 
-      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.paths.join(' ') + ' ' + a.filename).toLowerCase())}">
+      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.author + ' ' + a.paths.join(' ') + ' ' + a.filename).toLowerCase())}">
         <td>
           <div class="lp-art-name"><a href="${ghBase}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">${escHtml(a.name)}</a></div>
           ${a.description ? `<div class="lp-art-desc">${escHtml(a.description)}</div>` : ''}
+          ${a.author ? `<div class="lp-art-author"><i class="ti ti-user" aria-hidden="true"></i>${escHtml(a.author)}</div>` : ''}
           ${pathsHtml}
         </td>
         <td><span class="lp-tool-tag ${escHtml(a.toolId)}">${escHtml(toolLabel)}</span></td>
