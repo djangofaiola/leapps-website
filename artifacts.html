@@ -96,6 +96,13 @@
 .lp-output-badge.timeline { border-color: rgba(83,29,171,.3); color: #531dab; }
 .lp-output-badge.kml { border-color: rgba(232,118,45,.35); color: #E8762D; }
 .lp-output-badge.none { border-style: dashed; color: #777; }
+.lp-th-sort { cursor: pointer; user-select: none; transition: color .15s; }
+.lp-th-sort:hover { color: var(--gold); }
+.lp-th-sort.sorted { color: var(--gold); }
+.lp-sort-ind { display: inline-block; width: .7em; font-size: .72rem; }
+.lp-updated { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .03em; color: var(--muted); white-space: nowrap; }
+.lp-updated-none { color: #555; }
+.lp-catalog-updated { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: .7rem; }
 .lp-paths-toggle { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .08em; color: var(--muted); cursor: pointer; background: none; border: none; padding: 0; display: inline-flex; align-items: center; gap: .3rem; transition: color .2s; margin-top: .35rem; }
 .lp-paths-toggle:hover { color: var(--gold); }
 .lp-paths-list { display: none; margin-top: .4rem; }
@@ -108,7 +115,9 @@
 .lp-no-results { text-align: center; padding: 3rem 2rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); border: 1px solid var(--border); background: var(--surface); display: none; }
 .lp-no-results.visible { display: block; }
 @media (max-width: 768px) {
-  .lp-table th:nth-child(4), .lp-table td:nth-child(4) { display: none; }
+  /* hide Output Types (4th) and Updated (5th) on narrow screens */
+  .lp-table th:nth-child(4), .lp-table td:nth-child(4),
+  .lp-table th:nth-child(5), .lp-table td:nth-child(5) { display: none; }
 }
 #lp-root { margin: 0 8px; }
 [data-theme="light"] body, [data-theme="light"] #lp-root, [data-theme="light"] section,
@@ -201,6 +210,7 @@
       <span class="lp-eyebrow">Live from GitHub</span>
       <h1>Artifact <span>Browser</span></h1>
       <p>Browse and search every artifact supported across iLEAPP, ALEAPP, RLEAPP, and VLEAPP — pulled live from the source code.</p>
+      <p class="lp-catalog-updated" id="catalog-updated"></p>
     </div>
   </header>
 
@@ -266,18 +276,19 @@
       <table class="lp-table" aria-label="Artifact list">
         <thead>
           <tr>
-            <th>Artifact</th>
+            <th class="lp-th-sort" data-sort="name" aria-sort="ascending" title="Sort by name">Artifact <span class="lp-sort-ind"></span></th>
             <th>Tool</th>
             <th>Category</th>
             <th>Output Types</th>
+            <th class="lp-th-sort" data-sort="updated" aria-sort="none" title="Sort by last updated date">Updated <span class="lp-sort-ind"></span></th>
           </tr>
         </thead>
         <tbody id="artifacts-tbody">
-          <tr><td><span class="lp-skel" style="height:1rem;width:160px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:240px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:90px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
-          <tr><td><span class="lp-skel" style="height:1rem;width:140px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:200px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
-          <tr><td><span class="lp-skel" style="height:1rem;width:180px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:220px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:100px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
-          <tr><td><span class="lp-skel" style="height:1rem;width:130px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:190px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:75px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
-          <tr><td><span class="lp-skel" style="height:1rem;width:170px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:210px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:85px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:160px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:240px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:90px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td><td><span class="lp-skel" style="height:.75rem;width:70px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:140px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:200px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td><td><span class="lp-skel" style="height:.75rem;width:70px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:180px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:220px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:100px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td><td><span class="lp-skel" style="height:.75rem;width:70px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:130px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:190px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:75px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td><td><span class="lp-skel" style="height:.75rem;width:70px"></span></td></tr>
+          <tr><td><span class="lp-skel" style="height:1rem;width:170px;margin-bottom:.3rem"></span><span class="lp-skel" style="height:.75rem;width:210px"></span></td><td><span class="lp-skel" style="height:.75rem;width:60px"></span></td><td><span class="lp-skel" style="height:.75rem;width:85px"></span></td><td><span class="lp-skel" style="height:.75rem;width:80px"></span></td><td><span class="lp-skel" style="height:.75rem;width:70px"></span></td></tr>
         </tbody>
       </table>
     </div>
@@ -473,6 +484,14 @@
       return expandOutputTypes(extractStrList(body, 'output_types'));
     }
 
+    // Normalize a last_update_date to YYYY-MM-DD (tolerating YYYY/MM/DD and
+    // single-digit month/day). Returns '' if absent or unparseable.
+    function normalizeDate(s) {
+      const m = String(s || '').trim().match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);
+      if (!m) return '';
+      return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+    }
+
     function parseV2(content, toolId, filename) {
       const results = [];
       const startIdx = content.indexOf('__artifacts_v2__');
@@ -513,6 +532,7 @@
           author: extractStrJoined(body, 'author'),
           paths: extractStrList(body, 'paths'),
           outputTypes: extractOutputTypes(body),
+          lastUpdated: normalizeDate(extractStr(body, 'last_update_date')),
         });
       }
       return results;
@@ -530,7 +550,7 @@
         results.push({
           key: m[1], name: m[1], toolId, filename,
           description: '', category: m[2] || 'Uncategorized',
-          author: '', paths: [], outputTypes: [],
+          author: '', paths: [], outputTypes: [], lastUpdated: '',
         });
       }
       return results;
@@ -632,7 +652,7 @@
 
       const ghBase = `https://github.com/${TOOLS.find(t => t.id === a.toolId)?.repo}/blob/main/${ARTIFACTS_PATH}/${escHtml(a.filename)}`;
 
-      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.author + ' ' + a.paths.join(' ') + ' ' + a.filename).toLowerCase())}">
+      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-updated="${escHtml(a.lastUpdated)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.author + ' ' + a.paths.join(' ') + ' ' + a.filename + ' ' + a.lastUpdated).toLowerCase())}">
         <td>
           <div class="lp-art-name"><a href="${ghBase}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">${escHtml(a.name)}</a></div>
           ${a.description ? `<div class="lp-art-desc">${escHtml(a.description)}</div>` : ''}
@@ -642,6 +662,7 @@
         <td><span class="lp-tool-tag ${escHtml(a.toolId)}">${escHtml(toolLabel)}</span></td>
         <td style="font-size:.82rem;color:var(--muted)">${escHtml(a.category)}</td>
         <td><div class="lp-output-types">${outputBadges}</div></td>
+        <td class="lp-updated">${a.lastUpdated ? escHtml(a.lastUpdated) : '<span class="lp-updated-none">—</span>'}</td>
       </tr>`;
     }
 
@@ -691,17 +712,69 @@
       });
     }
 
-    function renderAll() {
-      const sorted = [...allArtifacts].sort((a, b) => a.name.localeCompare(b.name));
-      document.getElementById('artifacts-tbody').innerHTML = sorted.map((a, i) => buildRow(a, i)).join('');
-      populateCategorySelect(allArtifacts);
+    let currentSort = { key: 'name', dir: 'asc' };
 
+    function sortArtifacts(list) {
+      const { key, dir } = currentSort;
+      const mul = dir === 'asc' ? 1 : -1;
+      return [...list].sort((a, b) => {
+        if (key === 'updated') {
+          const av = a.lastUpdated || '', bv = b.lastUpdated || '';
+          if (av !== bv) {
+            if (!av) return 1;               // artifacts with no date always sort last
+            if (!bv) return -1;
+            return (av < bv ? -1 : 1) * mul;
+          }
+          return a.name.localeCompare(b.name); // tie-break by name
+        }
+        return a.name.localeCompare(b.name) * mul;
+      });
+    }
+
+    function updateSortIndicators() {
+      document.querySelectorAll('.lp-table th[data-sort]').forEach(th => {
+        const active = th.dataset.sort === currentSort.key;
+        th.classList.toggle('sorted', active);
+        th.setAttribute('aria-sort', active ? (currentSort.dir === 'asc' ? 'ascending' : 'descending') : 'none');
+        const ind = th.querySelector('.lp-sort-ind');
+        if (ind) ind.textContent = active ? (currentSort.dir === 'asc' ? '↑' : '↓') : '';
+      });
+    }
+
+    function renderRows() {
+      document.getElementById('artifacts-tbody').innerHTML =
+        sortArtifacts(allArtifacts).map((a, i) => buildRow(a, i)).join('');
+      updateSortIndicators();
+      applyFilters();
+    }
+
+    function setSort(key) {
+      if (currentSort.key === key) {
+        currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort.key = key;
+        currentSort.dir = key === 'updated' ? 'desc' : 'asc'; // dates default to newest-first
+      }
+      renderRows();
+    }
+
+    function renderAll() {
+      populateCategorySelect(allArtifacts);
       const cats = new Set(allArtifacts.map(a => a.category));
       document.getElementById('stat-total').textContent = allArtifacts.length.toLocaleString();
       document.getElementById('stat-categories').textContent = cats.size.toLocaleString();
 
+      // "Catalog last updated" = most recent last_update_date across all
+      // artifacts, ignoring any date past today (a few artifacts carry typo'd
+      // future dates that would otherwise skew the stamp).
+      const today = new Date().toISOString().slice(0, 10);
+      const maxDate = allArtifacts.reduce((m, a) =>
+        (a.lastUpdated && a.lastUpdated <= today && a.lastUpdated > m ? a.lastUpdated : m), '');
+      const cu = document.getElementById('catalog-updated');
+      if (cu && maxDate) cu.textContent = `Catalog last updated ${maxDate}`;
+
       document.getElementById('progress-wrap').style.display = 'none';
-      applyFilters();
+      renderRows();
     }
 
     function togglePaths(btn) {
@@ -738,7 +811,7 @@
       if (allArtifacts.length === 0) {
         document.getElementById('progress-wrap').style.display = 'none';
         document.getElementById('artifacts-tbody').innerHTML =
-          `<tr><td colspan="4" style="text-align:center;padding:3rem;font-family:var(--font-mono);font-size:.8rem;color:var(--muted)">No artifacts loaded. <a href="https://github.com/abrignoni" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">View on GitHub →</a></td></tr>`;
+          `<tr><td colspan="5" style="text-align:center;padding:3rem;font-family:var(--font-mono);font-size:.8rem;color:var(--muted)">No artifacts loaded. <a href="https://github.com/abrignoni" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">View on GitHub →</a></td></tr>`;
         return;
       }
 
@@ -766,6 +839,10 @@
         activeTool = btn.dataset.tool;
         applyFilters();
       });
+    });
+
+    document.querySelectorAll('.lp-table th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => setSort(th.dataset.sort));
     });
 
     document.getElementById('cat-select').addEventListener('change', e => {
