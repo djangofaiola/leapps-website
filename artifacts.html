@@ -100,6 +100,8 @@
 .lp-th-sort:hover { color: var(--gold); }
 .lp-th-sort.sorted { color: var(--gold); }
 .lp-sort-ind { display: inline-block; width: .7em; font-size: .72rem; }
+.lp-th-sort:not(.sorted) .lp-sort-ind { opacity: .4; }
+.lp-th-sort:hover .lp-sort-ind { opacity: 1; }
 .lp-updated { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .03em; color: var(--muted); white-space: nowrap; }
 .lp-updated-none { color: #555; }
 .lp-catalog-updated { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: .7rem; }
@@ -737,7 +739,9 @@
         th.classList.toggle('sorted', active);
         th.setAttribute('aria-sort', active ? (currentSort.dir === 'asc' ? 'ascending' : 'descending') : 'none');
         const ind = th.querySelector('.lp-sort-ind');
-        if (ind) ind.textContent = active ? (currentSort.dir === 'asc' ? '↑' : '↓') : '';
+        // active column shows direction; other sortable columns show a muted
+        // up/down glyph so they read as sortable too
+        if (ind) ind.textContent = active ? (currentSort.dir === 'asc' ? '↑' : '↓') : '↕';
       });
     }
 
