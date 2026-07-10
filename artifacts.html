@@ -95,6 +95,7 @@
 .lp-output-badge.tsv { border-color: rgba(164,198,57,.3); color: #A4C639; }
 .lp-output-badge.timeline { border-color: rgba(83,29,171,.3); color: #531dab; }
 .lp-output-badge.kml { border-color: rgba(232,118,45,.35); color: #E8762D; }
+.lp-output-badge.none { border-style: dashed; color: #777; }
 .lp-paths-toggle { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .08em; color: var(--muted); cursor: pointer; background: none; border: none; padding: 0; display: inline-flex; align-items: center; gap: .3rem; transition: color .2s; margin-top: .35rem; }
 .lp-paths-toggle:hover { color: var(--gold); }
 .lp-paths-list { display: none; margin-top: .4rem; }
@@ -613,9 +614,14 @@
 
     function buildRow(a, idx) {
       const toolLabel = TOOLS.find(t => t.id === a.toolId)?.name || a.toolId;
-      const outputBadges = a.outputTypes.map(t =>
-        `<span class="lp-output-badge ${escHtml(t.toLowerCase())}">${escHtml(t)}</span>`
-      ).join('');
+      // An empty list here means output_types was explicitly 'none' (an absent
+      // key defaults to all types in the parser) — show a muted 'none' pill so
+      // it reads as "no report output by design", not a parsing gap.
+      const outputBadges = a.outputTypes.length
+        ? a.outputTypes.map(t =>
+            `<span class="lp-output-badge ${escHtml(t.toLowerCase())}">${escHtml(t)}</span>`
+          ).join('')
+        : `<span class="lp-output-badge none">none</span>`;
       const pathsHtml = a.paths.length
         ? `<button class="lp-paths-toggle" onclick="togglePaths(this)" aria-expanded="false">
             <i class="ti ti-file-code" aria-hidden="true"></i>${a.paths.length} path${a.paths.length > 1 ? 's' : ''}
