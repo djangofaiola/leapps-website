@@ -81,6 +81,8 @@
 .lp-art-desc { font-size: .78rem; color: var(--muted); margin-top: .2rem; line-height: 1.5; }
 .lp-art-author { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .05em; color: var(--muted); margin-top: .3rem; display: flex; align-items: center; gap: .3rem; opacity: .85; }
 .lp-art-author .ti { font-size: .8rem; }
+.lp-art-author a { color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,.25); text-underline-offset: 2px; transition: color .2s; }
+.lp-art-author a:hover { color: var(--gold); text-decoration-color: var(--gold); }
 .lp-tool-tag { display: inline-block; font-family: var(--font-mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .5rem; border: 1px solid; white-space: nowrap; }
 .lp-tool-tag.ileapp { color: var(--color-ileapp); border-color: rgba(227,6,19,.3); }
 .lp-tool-tag.aleapp { color: var(--color-aleapp); border-color: rgba(164,198,57,.3); }
@@ -508,6 +510,30 @@
       return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
 
+    // Render an author string: link any site/URL it contains, and — matching
+    // the convention where authors embed a {site}/(site) — append Alexis
+    // Brignoni's site when his handle appears and no site is already present.
+    // Alexis's older Linq link-in-bio (linqapp.com/abrignoni) is rewritten to
+    // his current site (abrignoni.github.io) wherever it appears.
+    const SITE_TLDS = 'com|org|net|io|blog|dev|me|co|app|xyz|info|us|page|site';
+    function authorHtml(raw) {
+      let s = escHtml(raw);
+      // Substitute Alexis's retired Linq link for his GitHub Pages site
+      s = s.replace(/(?:https?:\/\/)?(?:www\.)?linqapp\.com\/abrignoni\/?/gi, 'abrignoni.github.io');
+      // full URLs
+      s = s.replace(/\bhttps?:\/\/[^\s{}()]+/g, u =>
+        `<a href="${u}" target="_blank" rel="noopener noreferrer">${u.replace(/^https?:\/\//, '')}</a>`);
+      // bare domains (not part of an email: must be preceded by start/space/brace/paren)
+      s = s.replace(new RegExp(`(^|[\\s{(])((?:[a-z0-9-]+\\.)+(?:${SITE_TLDS})(?:\\/[^\\s{}()]*)?)`, 'gi'),
+        (m, pre, dom) => `${pre}<a href="https://${dom}" target="_blank" rel="noopener noreferrer">${dom}</a>`);
+      const isAlexis = /alexis(?:\s*'?brigs'?)?\s*brignoni|@?alexisbrignoni|@abrignoni/i.test(raw);
+      const hasSite = /<a\s/.test(s) || /\{[^}]*\}/.test(raw);
+      if (isAlexis && !hasSite) {
+        s += ` {<a href="https://abrignoni.github.io" target="_blank" rel="noopener noreferrer">abrignoni.github.io</a>}`;
+      }
+      return s;
+    }
+
     function buildRow(a, idx) {
       const toolLabel = TOOLS.find(t => t.id === a.toolId)?.name || a.toolId;
       const outputBadges = a.outputTypes.map(t =>
@@ -527,7 +553,7 @@
         <td>
           <div class="lp-art-name"><a href="${ghBase}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">${escHtml(a.name)}</a></div>
           ${a.description ? `<div class="lp-art-desc">${escHtml(a.description)}</div>` : ''}
-          ${a.author ? `<div class="lp-art-author"><i class="ti ti-user" aria-hidden="true"></i>${escHtml(a.author)}</div>` : ''}
+          ${a.author ? `<div class="lp-art-author"><i class="ti ti-user" aria-hidden="true"></i><span>${authorHtml(a.author)}</span></div>` : ''}
           ${pathsHtml}
         </td>
         <td><span class="lp-tool-tag ${escHtml(a.toolId)}">${escHtml(toolLabel)}</span></td>
