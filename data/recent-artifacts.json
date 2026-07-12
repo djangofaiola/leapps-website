@@ -3,9 +3,21 @@
   "window_days": 45,
   "items": [
     {
+      "name": "c2paProvenance",
+      "query": "c2paProvenance",
+      "tool": "iLEAPP",
+      "date": "2026-07-12"
+    },
+    {
       "name": "biomeStreams",
       "query": "biomeStreams",
       "tool": "iLEAPP",
+      "date": "2026-07-12"
+    },
+    {
+      "name": "c2paProvenance",
+      "query": "c2paProvenance",
+      "tool": "ALEAPP",
       "date": "2026-07-12"
     },
     {
@@ -59,18 +71,6 @@
     {
       "name": "chromeDictionary",
       "query": "chromeDictionary",
-      "tool": "RLEAPP",
-      "date": "2026-07-09"
-    },
-    {
-      "name": "snapAiConvN",
-      "query": "snapAiConvN",
-      "tool": "RLEAPP",
-      "date": "2026-07-09"
-    },
-    {
-      "name": "snapCalllogsN",
-      "query": "snapCalllogsN",
       "tool": "RLEAPP",
       "date": "2026-07-09"
     }
