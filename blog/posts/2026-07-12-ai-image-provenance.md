@@ -80,3 +80,5 @@ Do you want it today? You do not have to wait. If you run iLEAPP or ALEAPP strai
 ---
 
 Thank you to the IPTC for the sample image and for pushing metadata standards for synthetic media. Thank you to the C2PA and Content Authenticity folks. And thank you to everyone in the LEAPP community who keeps testing tools and sharing images. Free tools get better because you do.
+
+<!-- cache-bust: force redeploy 2026-07-12 (phase-2 signature section) -->
