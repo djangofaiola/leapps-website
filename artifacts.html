@@ -106,10 +106,18 @@
 .lp-updated-none { color: #555; }
 .lp-catalog-updated { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: .7rem; }
 .lp-paths-toggle { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .08em; color: var(--muted); cursor: pointer; background: none; border: none; padding: 0; display: inline-flex; align-items: center; gap: .3rem; transition: color .2s; margin-top: .35rem; }
+.lp-paths-toggle + .lp-paths-list + .lp-paths-toggle,
+    .lp-paths-toggle + .lp-sample-list + .lp-paths-toggle { margin-left: 1rem; } /* breathing room between the paths and samples toggles */
 .lp-paths-toggle:hover { color: var(--gold); }
 .lp-paths-list { display: none; margin-top: .4rem; }
 .lp-paths-list.open { display: block; }
 .lp-path-item { font-family: var(--font-mono); font-size: .65rem; color: #666; padding: .15rem 0; word-break: break-all; }
+.lp-sample-list { display: none; margin-top: .4rem; }
+.lp-sample-list.open { display: block; }
+.lp-sample-item { font-family: var(--font-mono); font-size: .65rem; padding: .15rem 0; display: flex; gap: .4rem; align-items: baseline; flex-wrap: wrap; }
+.lp-sample-key { color: #666; }
+.lp-sample-sep { color: var(--border); }
+.lp-sample-val { color: #9a9a9a; }
 @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
 .lp-skel { display: block; border-radius: 2px; background: linear-gradient(90deg, var(--border) 25%, var(--surface) 50%, var(--border) 75%); background-size: 800px 100%; animation: shimmer 1.5s infinite; }
 .lp-tool-error { font-family: var(--font-mono); font-size: .72rem; color: #cc7777; padding: .5rem 1rem; border: 1px solid #5a2020; background: rgba(90,32,32,.1); margin-bottom: .5rem; display: flex; align-items: center; gap: .5rem; }
@@ -460,6 +468,38 @@
       return out;
     }
 
+    // sample_data is a dict: { 'sample_image_key': 'human description', ... },
+    // e.g. { 'iphone11_ios17': 'iOS 17.3 | 64 rows' }. Returns [{key, value}].
+    function extractSampleData(body) {
+      let i = findValueStart(body, 'sample_data');
+      if (i < 0) return [];
+      i = skipWs(body, i);
+      if (body[i] !== '{') return [];
+      const end = scanBalanced(body, i);        // index after the closing }
+      let j = i + 1;
+      const out = [];
+      while (j < end - 1) {
+        j = skipWs(body, j);
+        if (body[j] === ',') { j++; continue; }
+        if (body[j] === '}') break;
+        const ks = strStart(body, j);
+        if (ks === -1) { j++; continue; }
+        const kr = readStr(body, ks);
+        j = skipWs(body, kr.end);
+        if (body[j] !== ':') { j = kr.end; continue; }
+        j = skipWs(body, j + 1);
+        const vs = strStart(body, j);
+        if (vs !== -1) {
+          const vr = readStr(body, vs);
+          out.push({ key: kr.value, value: vr.value.replace(/\s+/g, ' ').trim() });
+          j = vr.end;
+        } else if (body[j] === '{' || body[j] === '[' || body[j] === '(') {
+          j = scanBalanced(body, j);            // non-string value: skip safely
+        } else { j++; }
+      }
+      return out;
+    }
+
     // Mirrors the framework's check_output_types (ilapfuncs.py): the shorthand
     // strings 'standard' and 'all' expand to concrete output types, so they
     // render as badges instead of leaving the column blank.
@@ -533,6 +573,7 @@
           category: category || 'Uncategorized',
           author: extractStrJoined(body, 'author'),
           paths: extractStrList(body, 'paths'),
+          sampleData: extractSampleData(body),
           outputTypes: extractOutputTypes(body),
           lastUpdated: normalizeDate(extractStr(body, 'last_update_date')),
         });
@@ -552,7 +593,7 @@
         results.push({
           key: m[1], name: m[1], toolId, filename,
           description: '', category: m[2] || 'Uncategorized',
-          author: '', paths: [], outputTypes: [], lastUpdated: '',
+          author: '', paths: [], sampleData: [], outputTypes: [], lastUpdated: '',
         });
       }
       return results;
@@ -651,15 +692,23 @@
            <div class="lp-paths-list">
              ${a.paths.map(p => `<div class="lp-path-item">${escHtml(p)}</div>`).join('')}
            </div>` : '';
+      const sampleHtml = a.sampleData.length
+        ? `<button class="lp-paths-toggle" onclick="togglePaths(this)" aria-expanded="false">
+            <i class="ti ti-flask" aria-hidden="true"></i>${a.sampleData.length} sample${a.sampleData.length > 1 ? 's' : ''}
+           </button>
+           <div class="lp-sample-list">
+             ${a.sampleData.map(s => `<div class="lp-sample-item"><span class="lp-sample-key">${escHtml(s.key)}</span><span class="lp-sample-sep">·</span><span class="lp-sample-val">${escHtml(s.value)}</span></div>`).join('')}
+           </div>` : '';
 
       const ghBase = `https://github.com/${TOOLS.find(t => t.id === a.toolId)?.repo}/blob/main/${ARTIFACTS_PATH}/${escHtml(a.filename)}`;
 
-      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-updated="${escHtml(a.lastUpdated)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.author + ' ' + a.paths.join(' ') + ' ' + a.filename + ' ' + a.lastUpdated).toLowerCase())}">
+      return `<tr data-tool="${escHtml(a.toolId)}" data-category="${escHtml(a.category)}" data-updated="${escHtml(a.lastUpdated)}" data-search="${escHtml((a.name + ' ' + a.category + ' ' + a.description + ' ' + a.author + ' ' + a.paths.join(' ') + ' ' + a.sampleData.map(s => s.key + ' ' + s.value).join(' ') + ' ' + a.filename + ' ' + a.lastUpdated).toLowerCase())}">
         <td>
           <div class="lp-art-name"><a href="${ghBase}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">${escHtml(a.name)}</a></div>
           ${a.description ? `<div class="lp-art-desc">${escHtml(a.description)}</div>` : ''}
           ${a.author ? `<div class="lp-art-author"><i class="ti ti-user" aria-hidden="true"></i><span>${authorHtml(a.author)}</span></div>` : ''}
           ${pathsHtml}
+          ${sampleHtml}
         </td>
         <td><span class="lp-tool-tag ${escHtml(a.toolId)}">${escHtml(toolLabel)}</span></td>
         <td style="font-size:.82rem;color:var(--muted)">${escHtml(a.category)}</td>
@@ -785,11 +834,12 @@
       renderRows();
     }
 
+    // Generic collapsible toggle — flips the button's next sibling (paths list,
+    // sample list, …) open/closed. Each button keeps its own icon.
     function togglePaths(btn) {
       const list = btn.nextElementSibling;
       const open = list.classList.toggle('open');
       btn.setAttribute('aria-expanded', open);
-      btn.querySelector('i').className = open ? 'ti ti-file-code' : 'ti ti-file-code';
     }
 
     // ── INIT ─────────────────────────────────────────────────────────────────
