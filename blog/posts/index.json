@@ -1,5 +1,20 @@
 [
   {
+    "slug": "2026-07-12-ai-image-provenance",
+    "title": "Spotting AI Generated Images in iLEAPP and ALEAPP",
+    "date": "2026-07-12",
+    "author": "Alexis Brignoni",
+    "tags": [
+      "iLEAPP",
+      "ALEAPP",
+      "C2PA",
+      "IPTC",
+      "AI",
+      "provenance"
+    ],
+    "excerpt": "iLEAPP and ALEAPP can now flag AI generated images by reading content provenance two ways, C2PA Content Credentials manifests and the IPTC Digital Source Type in XMP. Pure Python, no new dependencies, and usable today straight from the source."
+  },
+  {
     "slug": "2026-07-11-the-rules-keep-changing",
     "title": "The Rules Keep Changing",
     "date": "2026-07-11",
