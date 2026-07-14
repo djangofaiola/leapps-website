@@ -1,5 +1,18 @@
 [
   {
+    "slug": "2026-07-12-be-careful-what-you-wish-for",
+    "title": "Be Careful What You Wish For",
+    "date": "2026-07-12",
+    "author": "Alexis Brignoni",
+    "tags": [
+      "AI",
+      "LLM",
+      "DFIR",
+      "opinion"
+    ],
+    "excerpt": "The genie can grant almost anything. It cannot grant you judgment. And judgment is the one thing you need in order to control it."
+  },
+  {
     "slug": "2026-07-12-ai-image-provenance",
     "title": "Spotting AI Generated Images in iLEAPP and ALEAPP",
     "date": "2026-07-12",
