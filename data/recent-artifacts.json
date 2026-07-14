@@ -3,6 +3,12 @@
   "window_days": 45,
   "items": [
     {
+      "name": "samsung honeyboard clipboard",
+      "query": "samsung_honeyboard_clipboard",
+      "tool": "ALEAPP",
+      "date": "2026-07-14"
+    },
+    {
       "name": "Ph126iOS26REFforAssetAnalysis",
       "query": "Ph126iOS26REFforAssetAnalysis",
       "tool": "iLEAPP",
@@ -65,12 +71,6 @@
     {
       "name": "takeoutSearchContributions",
       "query": "takeoutSearchContributions",
-      "tool": "RLEAPP",
-      "date": "2026-07-09"
-    },
-    {
-      "name": "omegaChat",
-      "query": "omegaChat",
       "tool": "RLEAPP",
       "date": "2026-07-09"
     }
