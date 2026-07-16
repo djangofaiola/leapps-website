@@ -1,5 +1,20 @@
 [
   {
+    "slug": "united-ios-app-artifacts",
+    "title": "A Trip Through the United iOS App",
+    "date": "2026-07-15",
+    "author": "James Habben",
+    "tags": [
+      "iLEAPP",
+      "iOS",
+      "artifacts",
+      "United",
+      "travel",
+      "research"
+    ],
+    "excerpt": "A look at United Airlines iOS app research in iLEAPP, including where the data lived, which rabbit holes mattered, and why nearby app/plugin data can change the shape of the parser."
+  },
+  {
     "slug": "2026-07-12-be-careful-what-you-wish-for",
     "title": "Be Careful What You Wish For",
     "date": "2026-07-12",
