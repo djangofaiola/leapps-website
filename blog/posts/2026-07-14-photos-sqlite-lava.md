@@ -33,7 +33,7 @@ That iOS 26 reference table matters. Apple keeps changing the schema, and keepin
 
 ## Why LAVA
 
-Photos.sqlite generates a lot of rows. LAVA gives you those rows in a fast, filterable, linkable interface instead of a static HTML page. When you are working faces against locations against timestamps, that difference is the difference between finding the story and missing it.
+Photos.sqlite generates a lot of rows. That is exactly where the old HTML report struggles. Load enough of them and the page can choke, hang, or crash outright. LAVA does not. It was built for data heavy output, and it hands you those rows in a fast, filterable, linkable interface instead of a static HTML page. When you are working faces against locations against timestamps, that difference is the difference between finding the story and missing it.
 
 Thank you Scott, for the research and for keeping it current release after release.
 
