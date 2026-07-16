@@ -37,16 +37,16 @@ I pointed it at Charlie's article and at test data from a public iOS 18.7.8 imag
 All fourteen ran clean against the test image on the first full pass. That is 3,668 rows of previously unparsed data. The work is up as [iLEAPP PR #1693](https://github.com/abrignoni/iLEAPP/pull/1693). See for yourself:
 
 ![Per-launch app openings from the ApplePay.Security.Features Biome database](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-07-11-the-rules-keep-changing/Biome_DB_-_App_Openings.png)
-*Per-launch application activity from the ApplePay.Security.Features Biome database. 407 launch records with bundle ID, UTC event time, and launch type.*
+*Figure 1: Per-launch application activity from the ApplePay.Security.Features Biome database. 407 launch records with bundle ID, UTC event time, and launch type.*
 
 ![Installed apps from the App.InstalledApp Set.db store](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-07-11-the-rules-keep-changing/Biome_Sets_-_Installed_Apps.png)
-*Installed application records recovered from the App.InstalledApp Set.db store, with per-record modified timestamps.*
+*Figure 2: Installed application records recovered from the App.InstalledApp Set.db store, with per-record modified timestamps.*
 
 ![A significant location decoded from a protobuf payload](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-07-11-the-rules-keep-changing/Biome_Sets_-_Significant_Locations.png)
-*A significant location (label, street, area, city, and country) decoded from a protobuf payload inside the Location.SignificantLocation Set.db store.*
+*Figure 3: A significant location (label, street, area, city, and country) decoded from a protobuf payload inside the Location.SignificantLocation Set.db store.*
 
 ![Siri and Shortcuts phrases registered per application](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-07-11-the-rules-keep-changing/Biome_Sets_-_App_Shortcut_Phrases.png)
-*Siri/Shortcuts phrases registered per application, showing which intents installed apps exposed to the system.*
+*Figure 4: Siri/Shortcuts phrases registered per application, showing which intents installed apps exposed to the system.*
 
 Was it hands-off? No, and that is exactly the point. I reviewed the schemas it inferred against the actual databases, checked the timestamp conversions, and validated row counts against manual queries of the source data. The LLM wrote the code; the examiner owned the verification. That division of labor is the only version of this workflow I will vouch for.
 

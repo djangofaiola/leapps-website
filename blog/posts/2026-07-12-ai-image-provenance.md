@@ -44,18 +44,22 @@ I ran it over a small folder. Four of the images are real AI pictures made with 
 Here is the HTML report. Eight C2PA rows up top, then the IPTC image at the bottom. The plain photo makes no row, exactly as it should.
 
 ![iLEAPP HTML report showing eight C2PA rows and one XMP/IPTC row, with a Metadata Source column](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-07-12-ai-image-provenance/report-html.webp)
+*Figure 1: The iLEAPP HTML report. Eight C2PA rows up top, the IPTC image at the bottom, and no row at all for the plain photo.*
 
 A closer look at the moment the report switches from C2PA to IPTC/XMP. Same AI answer, different source.
 
 ![Close up of a C2PA row above the XMP/IPTC row, showing the Bing Image Creator credit](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-07-12-ai-image-provenance/report-html-iptc-row.webp)
+*Figure 2: The moment the report switches from C2PA to IPTC/XMP. Same AI answer, different source.*
 
 The same data opens in LAVA too. Here are the C2PA images from Google's tooling.
 
 ![The C2PA Content Provenance artifact open in the LAVA viewer, showing the C2PA rows](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-07-12-ai-image-provenance/lava-c2pa.webp)
+*Figure 3: The C2PA Content Provenance artifact open in LAVA, showing the images made with Google's tooling.*
 
 Scroll to the bottom and the IPTC only image sits right next to the C2PA ones, clearly labeled.
 
 ![LAVA viewer scrolled to the XMP/IPTC row with the Bing Image Creator credit](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-07-12-ai-image-provenance/lava-iptc.webp)
+*Figure 4: The IPTC only image in LAVA, sitting right next to the C2PA ones and clearly labeled.*
 
 ## Who signed it, and when
 
