@@ -22,6 +22,7 @@ So iLEAPP now has a new artifact:
 - **Reusable parser:** `leapp_functions/parsers/apple_atx.py`
 
 ![iLEAPP module selection showing the Apple ATX Images artifact](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-26-decoding-apple-atx-images/ileapp-atx-images-module.png)
+*Figure 1: iLEAPP GUI showing Apple ATX Images artifact*
 
 ## What ATX is
 
@@ -43,6 +44,7 @@ That last part is what made this interesting. It was not enough to find the payl
 Here is one of those ATX files previewed in [Crush Forensics](https://github.com/kalink0/crush-forensics), which made it a lot easier to poke around the source paths and decoded image metadata while testing.
 
 ![Crush Forensics previewing an Apple ATX image and metadata](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-26-decoding-apple-atx-images/crush-atx-image.png)
+*Figure 2: Crush Forensics showing decoded Apple ATX image*
 
 ## The jumbled-image problem
 
@@ -53,8 +55,6 @@ Images were coming out, so ASTC decompression was working. But many of them were
 The fix was in the ATX `astc` payload layout. The blocks were macro-tiled rather than stored as a simple linear ASTC stream. After adjusting the Morton block de-tiling logic, including swapping the local X/Y interpretation, those previously shuffled images reconstructed correctly.
 
 That was the satisfying moment in this parser: not a huge rewrite, just the right small correction that made the image snap into place.
-
-<!-- Screenshot suggestion: before/after example of a jumbled ATX decode and the corrected output, if available. -->
 
 ## Pixel formats and honest guesses
 
@@ -88,6 +88,7 @@ The Apple ATX Images artifact searches globally for:
 When decoding succeeds, it checks the decoded PNG into the media output. It also reports metadata so the file is still useful even when image decoding does not work.
 
 ![LAVA showing decoded Apple ATX image previews and metadata](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-26-decoding-apple-atx-images/lava-atx-image.png)
+*Figure 3: LAVA showing decoded Apple ATX images*
 
 The artifact currently reports:
 

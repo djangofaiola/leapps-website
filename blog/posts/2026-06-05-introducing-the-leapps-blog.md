@@ -77,10 +77,12 @@ Store images in the repo alongside your post — create a folder for your post u
 blog/images/2026-06-05-your-post-title/screenshot.png
 ```
 
-Include the image files in the **same pull request** as your Markdown file, so the post and its images are reviewed and merged together. Then reference them in your post using the jsDelivr CDN, which serves the files straight from the repo:
+Include the image files in the **same pull request** as your Markdown file, so the post and its images are reviewed and merged together. Then link to them in your post using the jsDelivr CDN, which serves the files straight from the repo. We prefer to have a numbered figure label with a short description below the image. 
 
+Example
 ```markdown
 ![Description of the image](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-05-your-post-title/screenshot.png)
+*Figure 1: example of image in blog post*
 ```
 
 A few rules:
